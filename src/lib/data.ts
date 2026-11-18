@@ -15,15 +15,15 @@ export const COMPANY_FACTS = {
   tagline: "Engineering the Energy Future",
   eyebrow: "Oil and gas services from Lagos",
   address: "8B Ayigoro Street, Springbay Estate, Ikate Elegushi, Lekki Phase 1, Lagos, Nigeria",
-  email: "info@[DOMAIN]",
-  phone: "[PHONE_PLACEHOLDER]",
+  email: "meddyoilandgas@gmail.com",
+  phone: "",
   jurisdiction: "Lekki, Lagos State, Nigeria",
 };
 
 export const SITE_STATS = {
-  employees: null, // Client to confirm
-  activeFields: null, // Client to confirm
-  projectsCompleted: null, // Client to confirm
+  employees: null,
+  activeFields: null,
+  projectsCompleted: null,
   isDev: process.env.NODE_ENV !== "production",
 };
 

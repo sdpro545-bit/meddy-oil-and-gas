@@ -64,7 +64,7 @@ export default function ContactSection() {
             {/* Address & Communication Block */}
             <div className="space-y-6 pt-4 border-t border-white/10">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 text-[#F69E28]">
+                <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/[0.12] backdrop-blur-md flex items-center justify-center flex-shrink-0 text-[#F69E28]">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -86,7 +86,7 @@ export default function ContactSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 text-[#F69E28]">
+                <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/[0.12] backdrop-blur-md flex items-center justify-center flex-shrink-0 text-[#F69E28]">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ export default function ContactSection() {
           </div>
 
           {/* Right Column: Inquiry Form (7 cols) */}
-          <div className="lg:col-span-7 bg-[#102A47] border border-white/15 rounded-[4px] p-8 sm:p-10 shadow-2xl">
+          <div className="lg:col-span-7 bg-[#102A47]/80 backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 sm:p-10 shadow-2xl">
             {status === "success" ? (
               <div className="py-12 text-center space-y-4 animate-in fade-in">
                 <div className="w-16 h-16 rounded-full bg-[#F69E28]/20 text-[#F69E28] flex items-center justify-center mx-auto">
@@ -119,7 +119,7 @@ export default function ContactSection() {
                 </p>
                 <button
                   onClick={() => setStatus("idle")}
-                  className="mt-4 px-6 py-2.5 bg-white/10 hover:bg-white/15 text-white text-xs font-semibold rounded-[2px] uppercase tracking-wider"
+                  className="mt-4 px-8 py-3 bg-white/10 hover:bg-white/15 text-white text-xs font-semibold rounded-full uppercase tracking-wider transition-all duration-300"
                 >
                   Send another message
                 </button>
@@ -149,7 +149,7 @@ export default function ContactSection() {
                       placeholder="e.g. Tunde Adeyemi"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full h-12 bg-[#0B1E36] border border-white/15 rounded-[2px] px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:outline-none transition-colors"
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-xl px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200"
                     />
                   </div>
 
@@ -163,7 +163,7 @@ export default function ContactSection() {
                       placeholder="Company name"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full h-12 bg-[#0B1E36] border border-white/15 rounded-[2px] px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:outline-none transition-colors"
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-xl px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200"
                     />
                   </div>
                 </div>
@@ -180,7 +180,7 @@ export default function ContactSection() {
                       placeholder="name@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full h-12 bg-[#0B1E36] border border-white/15 rounded-[2px] px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:outline-none transition-colors"
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-xl px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200"
                     />
                   </div>
 
@@ -192,7 +192,7 @@ export default function ContactSection() {
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full h-12 bg-[#0B1E36] border border-white/15 rounded-[2px] px-4 text-white text-sm focus:border-[#F69E28] focus:outline-none transition-colors"
+                      className="w-full h-12 bg-[#0B1E36] border border-white/[0.12] rounded-xl px-4 text-white text-sm focus:border-[#F69E28] focus:outline-none transition-colors"
                     >
                       <option value="">Select a capability</option>
                       {SERVICES_DATA.map((s) => (
@@ -218,7 +218,7 @@ export default function ContactSection() {
                     placeholder="Provide details on well parameters, work timeline, or logistics requirements..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-[#0B1E36] border border-white/15 rounded-[2px] p-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:outline-none transition-colors resize-none"
+                    className="w-full bg-white/[0.04] border border-white/[0.12] rounded-xl p-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200 resize-none"
                   />
                 </div>
 
@@ -230,7 +230,7 @@ export default function ContactSection() {
                     required
                     checked={formData.consent}
                     onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
-                    className="mt-1 w-4 h-4 rounded border-white/20 bg-[#0B1E36] text-[#F69E28] focus:ring-[#F69E28]"
+                    className="mt-1 w-4 h-4 rounded-md border-white/20 bg-white/[0.05] text-[#F69E28] focus:ring-[#F69E28]"
                   />
                   <label htmlFor="consent" className="text-xs text-white/70 leading-normal">
                     I agree to the processing of submitted technical and business information for quotation and contract evaluation by Meddy Oil &amp; Gas Limited.
@@ -239,7 +239,7 @@ export default function ContactSection() {
 
                 {/* Error Banner */}
                 {status === "error" && (
-                  <div className="p-3 bg-red-950/50 border border-red-500/40 text-red-200 text-xs rounded-[2px]">
+                  <div className="p-3 bg-red-950/50 border border-red-500/40 text-red-200 text-xs rounded-xl">
                     {errorMessage}
                   </div>
                 )}
@@ -248,7 +248,7 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="w-full h-14 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.98] disabled:opacity-50 text-[#0B1E36] font-body text-base font-bold rounded-[2px] flex items-center justify-center gap-3 transition-all shadow-md"
+                  className="w-full h-13 bg-[#F69E28] hover:bg-[#FCB424] active:scale-[0.98] disabled:opacity-50 text-[#0B1E36] font-body text-base font-bold rounded-full flex items-center justify-center gap-3 transition-all duration-300 shadow-xl shadow-[#F69E28]/10 hover:shadow-2xl hover:shadow-[#F69E28]/20"
                 >
                   <Send className="w-4 h-4" />
                   <span>{status === "submitting" ? "Transmitting..." : "Send Message"}</span>

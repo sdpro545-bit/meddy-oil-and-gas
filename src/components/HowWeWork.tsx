@@ -8,10 +8,10 @@ export default function HowWeWork() {
     <section className="py-24 lg:py-36 bg-[#F6F8FB] border-b border-[#EAEFF5]">
       <div className="site-container">
         {/* Section Header */}
-        <div className="max-w-2xl mb-16">
-          <div className="inline-flex items-center gap-2 mb-3">
+        <div className="max-w-2xl mb-16 lg:mb-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/[0.04] rounded-full border border-black/[0.06] mb-3">
             <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
-            <span className="font-body text-sm font-semibold tracking-wider text-[#F69E28] uppercase">
+            <span className="font-body text-xs font-semibold tracking-wider text-[#0B1E36] uppercase">
               Operational Delivery
             </span>
           </div>
@@ -23,18 +23,18 @@ export default function HowWeWork() {
           </p>
         </div>
 
-        {/* 4-Step Timeline: Desktop Horizontal / Mobile Vertical */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+        {/* 4-Step Timeline with Apple Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
           {HOW_WE_WORK_STEPS.map((step, idx) => (
             <div
               key={step.step}
-              className="relative p-6 bg-white border border-[#EAEFF5] rounded-[4px] shadow-sm space-y-4 hover:border-[#F69E28] transition-all"
+              className="apple-card p-8 space-y-4"
             >
               <div className="flex items-center justify-between">
-                <span className="font-display text-3xl font-bold text-[#F69E28] font-mono">
+                <span className="font-display text-4xl font-bold text-[#F69E28] font-mono leading-none">
                   {step.step}
                 </span>
-                <span className="text-xs font-mono text-[#5B6E86] uppercase tracking-wider">
+                <span className="text-[10px] font-mono font-bold text-[#5B6E86] uppercase tracking-wider px-2 py-0.5 bg-black/[0.04] rounded-full">
                   STAGE 0{idx + 1}
                 </span>
               </div>

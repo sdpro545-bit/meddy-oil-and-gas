@@ -8,7 +8,7 @@ import { COMPANY_FACTS } from "@/lib/data";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100svh] lg:min-h-[800px] lg:max-h-[920px] w-full flex items-center justify-center overflow-hidden bg-[#0B1E36]">
+    <section className="relative min-h-[100svh] lg:min-h-[820px] lg:max-h-[940px] w-full flex items-center justify-center overflow-hidden bg-[#0B1E36]">
       {/* Background Photography with object positioning */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -25,14 +25,14 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0B1E36] to-transparent lg:hidden" />
       </div>
 
-      <div className="site-container relative z-10 w-full pt-28 pb-20 lg:pt-36 lg:pb-28">
+      <div className="site-container relative z-10 w-full pt-32 pb-20 lg:pt-36 lg:pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Content Column (7 cols desktop) */}
           <div className="lg:col-span-7 space-y-6">
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
-              <span className="font-body text-sm font-semibold tracking-wider text-[#F69E28] uppercase">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.08] rounded-full border border-white/[0.1] backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#F69E28] animate-pulse" />
+              <span className="font-body text-xs font-semibold tracking-wider text-white uppercase">
                 {COMPANY_FACTS.eyebrow}
               </span>
             </div>
@@ -45,22 +45,22 @@ export default function Hero() {
             </h1>
 
             {/* Sub-lead */}
-            <p className="font-body text-base sm:text-lg text-white/80 max-w-xl leading-relaxed pt-2">
-              Meddy Oil & Gas Limited supports exploration, drilling, well construction, and asset maintenance for operators across Nigeria who require disciplined, dependable delivery.
+            <p className="font-body text-base sm:text-lg text-white/80 max-w-xl leading-relaxed pt-1">
+              Meddy Oil &amp; Gas Limited supports exploration, drilling, well construction, and asset maintenance for operators across Nigeria who require disciplined, dependable delivery.
             </p>
 
-            {/* CTA Button */}
+            {/* Apple-style CTA Buttons */}
             <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Link
                 href="#contact"
-                className="inline-flex items-center justify-center gap-3 h-14 px-8 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.98] text-[#0B1E36] font-body text-base font-semibold rounded-[2px] transition-all shadow-md group"
+                className="inline-flex items-center justify-center gap-2.5 h-[50px] px-8 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.97] text-[#0B1E36] font-body text-sm font-bold uppercase tracking-wider rounded-full transition-all shadow-[0_4px_24px_rgba(246,158,40,0.35)] hover:shadow-[0_6px_28px_rgba(246,158,40,0.5)] group"
               >
                 <span>Request Consultation</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/services"
-                className="inline-flex items-center justify-center gap-2 h-14 px-8 border border-white/25 hover:border-white text-white font-body text-base font-medium rounded-[2px] hover:bg-white/5 transition-all"
+                className="inline-flex items-center justify-center gap-2 h-[50px] px-8 border border-white/20 hover:border-white/40 bg-white/[0.05] hover:bg-white/[0.1] backdrop-blur-md text-white font-body text-sm font-semibold rounded-full active:scale-[0.97] transition-all"
               >
                 <span>View Capabilities</span>
               </Link>
@@ -69,7 +69,7 @@ export default function Hero() {
 
           {/* Right Bottom Cluster (5 cols desktop) */}
           <div className="lg:col-span-5 flex flex-col justify-end lg:items-end relative">
-            <div className="relative text-left lg:text-right p-6 rounded-[4px] border border-white/10 bg-[#0B1E36]/40 backdrop-blur-sm max-w-sm lg:ml-auto">
+            <div className="relative text-left lg:text-right p-8 rounded-2xl border border-white/[0.12] bg-[#0B1E36]/60 backdrop-blur-2xl shadow-2xl max-w-sm lg:ml-auto">
               {/* Massive Ghost Lettering behind */}
               <div
                 aria-hidden="true"
@@ -92,7 +92,7 @@ export default function Hero() {
               </div>
 
               {/* Verified standard label */}
-              <div className="relative z-10 pt-4 mt-4 border-t border-white/10 text-xs text-white/60 font-mono flex items-center justify-between">
+              <div className="relative z-10 pt-4 mt-4 border-t border-white/[0.1] text-xs text-white/60 font-mono flex items-center justify-between">
                 <span>HEADQUARTERS</span>
                 <span className="text-white/80">LEKKI, LAGOS</span>
               </div>

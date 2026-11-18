@@ -10,21 +10,27 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="pt-28 lg:pt-36 pb-24 bg-[#F6F8FB]">
-      <div className="site-container max-w-4xl space-y-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase text-[#5B6E86] hover:text-[#F69E28] transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Home</span>
-        </Link>
+    <div className="bg-[#F6F8FB]">
+      {/* Sleek Apple-style Hero Banner */}
+      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 bg-[#0B1E36] text-white overflow-hidden border-b border-white/[0.08]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(246,158,40,0.18),transparent)]" />
+        <div className="site-container relative z-10 max-w-4xl space-y-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase text-white/60 hover:text-[#F69E28] transition-colors mb-4"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Home</span>
+          </Link>
 
-        <h1 className="font-display text-4xl sm:text-5xl font-bold uppercase text-[#0B1E36]">
-          Privacy Policy &amp; Data Governance
-        </h1>
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-white tracking-tight leading-[0.98]">
+            Privacy Policy &amp; Data Governance
+          </h1>
+        </div>
+      </section>
 
-        <div className="p-8 sm:p-12 bg-white rounded-[4px] border border-[#EAEFF5] space-y-6 text-sm text-[#2B4260] leading-relaxed">
+      <div className="site-container max-w-4xl py-16 lg:py-24">
+        <div className="p-8 sm:p-12 apple-card space-y-6 text-sm text-[#2B4260] leading-relaxed">
           <p>
             Meddy Oil &amp; Gas Limited is committed to protecting the privacy, technical data, and personal information of our clients, suppliers, and prospective employees in accordance with the Nigeria Data Protection Act (NDPA).
           </p>

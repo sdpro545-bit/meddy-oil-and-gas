@@ -85,8 +85,8 @@ export default function ServicesSection() {
           </div>
 
           {/* Right Column: Desktop Sticky Image Preview Frame (5 cols) */}
-          <div className="hidden lg:block lg:col-span-5 sticky top-32">
-            <div className="relative aspect-[4/3] w-full rounded-[4px] overflow-hidden border border-white/15 shadow-2xl bg-[#102A47]">
+          <div className="hidden lg:block lg:col-span-5 sticky top-28">
+            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border border-white/[0.12] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] bg-[#102A47]">
               <Image
                 key={activeService.image}
                 src={activeService.image}
@@ -95,12 +95,12 @@ export default function ServicesSection() {
                 sizes="40vw"
                 className="object-cover transition-all duration-500 animate-in fade-in zoom-in-95"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/90 via-[#0B1E36]/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/95 via-[#0B1E36]/30 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 space-y-2">
-                <span className="text-xs font-mono text-[#F69E28] tracking-widest uppercase">
+                <span className="text-[10px] font-mono font-bold text-[#F69E28] tracking-widest uppercase bg-[#0B1E36]/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
                   Service {activeService.number} Specification
                 </span>
-                <div className="font-display text-2xl font-bold uppercase text-white">
+                <div className="font-display text-2xl font-bold uppercase text-white pt-1">
                   {activeService.title}
                 </div>
                 <div className="text-xs text-white/75 line-clamp-2">

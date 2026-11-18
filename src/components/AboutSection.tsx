@@ -14,13 +14,13 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="relative py-20 lg:py-32 bg-[#F6F8FB] overflow-hidden">
+    <section className="relative py-24 lg:py-36 bg-[#F6F8FB] overflow-hidden">
       <div className="site-container">
         {/* Section Header */}
-        <div className="max-w-2xl mb-12 lg:mb-16">
-          <div className="inline-flex items-center gap-2 mb-3">
+        <div className="max-w-2xl mb-14 lg:mb-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/[0.04] rounded-full border border-black/[0.06] mb-3">
             <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
-            <span className="font-body text-sm font-semibold tracking-wider text-[#F69E28] uppercase">
+            <span className="font-body text-xs font-semibold tracking-wider text-[#0B1E36] uppercase">
               About Us
             </span>
           </div>
@@ -33,16 +33,16 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Zone 1: Left Image (Storage Tank, 4:3 aspect, lower offset) */}
           <div className="lg:col-span-3 order-2 lg:order-1 relative lg:mt-16">
-            <div className="relative aspect-[4/3] w-full rounded-[4px] overflow-hidden shadow-lg border border-[#EAEFF5] bg-[#EAEFF5]">
+            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-xl border border-black/[0.06] bg-[#EAEFF5] group">
               <Image
-                src="/images/about-tank.webp"
+                src="/images/about-tank.jpg"
                 alt="Industrial energy storage facility"
                 fill
                 sizes="(max-width: 1024px) 100vw, 25vw"
-                className="object-cover hover:scale-105 transition-transform duration-700"
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/50 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 text-[11px] font-mono text-white/90 bg-[#0B1E36]/80 px-2 py-1 rounded-[2px]">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/60 via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-3 text-[10px] font-mono font-bold tracking-wider text-white/90 bg-[#0B1E36]/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
                 LAGOS LOGISTICS BASE
               </div>
             </div>
@@ -59,14 +59,14 @@ export default function AboutSection() {
               <h3 className="font-display text-2xl lg:text-3xl font-bold text-[#0B1E36] uppercase tracking-wide">
                 Dedicated to Excellence in Oil and Gas Service
               </h3>
-              <div className="w-20 h-[3px] bg-[#F69E28] mt-2 rounded-full" />
+              <div className="w-16 h-[3px] bg-[#F69E28] mt-2.5 rounded-full" />
             </div>
 
             {/* Checklist */}
-            <ul className="space-y-3 pt-2">
+            <ul className="space-y-3.5 pt-2">
               {checklist.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-[2px] bg-[#F69E28]/15 text-[#F69E28] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-[#F69E28]/15 text-[#F69E28] flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                   </div>
                   <span className="font-body text-sm sm:text-base text-[#2B4260] font-medium">
@@ -78,16 +78,16 @@ export default function AboutSection() {
 
             {/* Stats Row */}
             <div className="pt-6 border-t border-[#EAEFF5] flex flex-wrap items-center gap-8">
-              {/* Stat 1: Personnel Badge */}
+              {/* Personnel Badge */}
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  <div className="w-8 h-8 rounded-full bg-[#102A47] border-2 border-white flex items-center justify-center text-[11px] text-white font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#102A47] border-2 border-white flex items-center justify-center text-[10px] text-white font-bold">
                     M1
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-[#F69E28] border-2 border-white flex items-center justify-center text-[11px] text-[#0B1E36] font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#F69E28] border-2 border-white flex items-center justify-center text-[10px] text-[#0B1E36] font-bold">
                     M2
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-[#164882] border-2 border-white flex items-center justify-center text-[11px] text-white font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#164882] border-2 border-white flex items-center justify-center text-[10px] text-white font-bold">
                     M3
                   </div>
                 </div>
@@ -107,7 +107,7 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              {/* Stat 2: Active Fields / Basins */}
+              {/* Active Fields */}
               <div className="flex items-baseline gap-2">
                 <div className="font-display text-4xl font-bold text-[#0B1E36]">
                   {SITE_STATS.activeFields ?? "06"}
@@ -122,26 +122,26 @@ export default function AboutSection() {
             <div className="pt-4">
               <Link
                 href="/services"
-                className="inline-flex items-center gap-3 h-12 px-7 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.98] text-[#0B1E36] font-body text-sm font-semibold rounded-[2px] transition-all shadow-sm group"
+                className="inline-flex items-center gap-2.5 h-[46px] px-7 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.98] text-[#0B1E36] font-body text-xs font-bold uppercase tracking-wider rounded-full transition-all shadow-[0_4px_16px_rgba(246,158,40,0.25)] hover:shadow-[0_6px_20px_rgba(246,158,40,0.4)] group"
               >
                 <span>Explore Our Capabilities</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
           {/* Zone 3: Right Image (Engineer Portrait, 4:5 aspect, higher offset) */}
           <div className="lg:col-span-3 order-3 relative">
-            <div className="relative aspect-[4/5] w-full rounded-[4px] overflow-hidden shadow-xl border border-[#EAEFF5] bg-[#EAEFF5]">
+            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-2xl border border-black/[0.06] bg-[#EAEFF5] group">
               <Image
                 src="/images/about-nigerian-engineer.png"
                 alt="Nigerian oilfield specialist reviewing technical plans"
                 fill
                 sizes="(max-width: 1024px) 100vw, 25vw"
-                className="object-cover object-[center_20%] hover:scale-105 transition-transform duration-700"
+                className="object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/60 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 text-[11px] font-mono text-white/90 bg-[#0B1E36]/80 px-2 py-1 rounded-[2px]">
+              <div className="absolute bottom-3 left-3 text-[10px] font-mono font-bold tracking-wider text-white/90 bg-[#0B1E36]/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
                 FIELD SUPERVISOR ON SITE
               </div>
             </div>

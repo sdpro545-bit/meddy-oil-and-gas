@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
+import SmoothScroll from "@/components/SmoothScroll";
 import { COMPANY_FACTS } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en-NG">
       <body className="bg-[#F6F8FB] text-[#0B1E36] antialiased selection:bg-[#F69E28] selection:text-[#0B1E36]">
+        <SmoothScroll />
         <Preloader />
         <Header />
         <main className="min-h-screen">{children}</main>
