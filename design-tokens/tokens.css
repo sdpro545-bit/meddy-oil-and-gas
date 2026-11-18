@@ -1,0 +1,69 @@
+:root {
+  /* Brand colours sampled directly from Meddy Oil & Gas Logo.png */
+  --brand-gold-300: #F9DD6F;
+  --brand-amber-400: #F2C043;
+  --brand-amber-500: #FCB424;
+  --brand-orange-500: #F69E28; /* Primary action accent (buttons, icons, active borders) */
+  --brand-orange-600: #E08518; /* Hover */
+  --brand-orange-700: #C67117; /* Active press & dark accent text */
+  --brand-teal-400: #7CC1D0;   /* Wave highlight & focus ring */
+  --brand-blue-600: #1A5891;   /* Wave body */
+  --brand-blue-800: #164882;   /* Deep wave base */
+
+  /* Neutrals tinted with brand blue */
+  --ink-950: #0B1E36;   /* Darkest surface, hero scrim base, dark text */
+  --ink-900: #102A47;   /* Header solid on scroll, footer surface */
+  --ink-700: #2B4260;   /* Primary body text on light backgrounds */
+  --ink-500: #5B6E86;   /* Secondary muted text, hairlines */
+  --paper-50: #F6F8FB;  /* Light section background */
+  --paper-100: #EAEFF5; /* Subtle borders & dividers */
+  --white: #FFFFFF;
+
+  /* Semantic mappings */
+  --bg: var(--paper-50);
+  --bg-dark: var(--ink-950);
+  --surface: var(--white);
+  --surface-dark: var(--ink-900);
+  --text: var(--ink-950);
+  --text-muted: var(--ink-700);
+  --text-on-dark: var(--white);
+  --accent: var(--brand-orange-500);
+  --accent-hover: var(--brand-orange-600);
+  --accent-press: var(--brand-orange-700);
+  --focus-ring: var(--brand-teal-400);
+  --border-light: var(--paper-100);
+  --border-dark: rgba(255, 255, 255, 0.12);
+  --success: #2E7D4F;
+  --danger: #B3261E;
+
+  /* Typography */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Layout */
+  --container-max: 1320px;
+  --container-padding: clamp(20px, 4.5vw, 72px);
+  --header-height: 80px;
+  --header-height-mobile: 64px;
+
+  /* Radii */
+  --radius-btn: 2px;
+  --radius-card: 4px;
+  --radius-tile: 4px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}

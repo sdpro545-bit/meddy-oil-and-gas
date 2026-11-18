@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource-variable/manrope";
+
+:root {
+  /* Brand colors sampled from Meddy Oil & Gas Logo.png */
+  --brand-gold-300: #F9DD6F;
+  --brand-amber-400: #F2C043;
+  --brand-amber-500: #FCB424;
+  --brand-orange-500: #F69E28;
+  --brand-orange-600: #E08518;
+  --brand-orange-700: #C67117;
+  --brand-teal-400: #7CC1D0;
+  --brand-blue-600: #1A5891;
+  --brand-blue-800: #164882;
+
+  /* Neutrals tinted with brand blue */
+  --ink-950: #0B1E36;
+  --ink-900: #102A47;
+  --ink-700: #2B4260;
+  --ink-500: #5B6E86;
+  --paper-50: #F6F8FB;
+  --paper-100: #EAEFF5;
+  --white: #FFFFFF;
+
+  /* Semantic */
+  --bg: var(--paper-50);
+  --bg-dark: var(--ink-950);
+  --surface: var(--white);
+  --surface-dark: var(--ink-900);
+  --text: var(--ink-950);
+  --text-muted: var(--ink-700);
+  --accent: var(--brand-orange-500);
+  --accent-hover: var(--brand-orange-600);
+  --accent-press: var(--brand-orange-700);
+  --focus-ring: var(--brand-teal-400);
+
+  /* Typography */
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-body: "Manrope Variable", sans-serif;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html {
+  font-family: var(--font-body);
+  color: var(--text);
+  background-color: var(--bg);
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: var(--brand-orange-500);
+  color: var(--ink-950);
+}
+
+/* Typography Utility Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-700);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-orange-500);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Container */
+.site-container {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 4.5vw, 72px);
+  padding-right: clamp(20px, 4.5vw, 72px);
+}
