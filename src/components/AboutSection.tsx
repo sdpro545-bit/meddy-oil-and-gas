@@ -35,7 +35,7 @@ export default function AboutSection() {
           <div className="lg:col-span-3 order-2 lg:order-1 relative lg:mt-16">
             <div className="relative aspect-[4/3] w-full rounded-[4px] overflow-hidden shadow-lg border border-[#EAEFF5] bg-[#EAEFF5]">
               <Image
-                src="/images/about-tank.jpg"
+                src="/images/about-tank.webp"
                 alt="Industrial energy storage facility"
                 fill
                 sizes="(max-width: 1024px) 100vw, 25vw"
