@@ -150,12 +150,11 @@ export function TransitionOverlay({ children }: { children: React.ReactNode }) {
         aria-hidden="true"
         className="fixed inset-0 z-[90] bg-[#0B1E36] hidden items-center justify-center pointer-events-none"
       >
-        <div ref={logoRef} className="w-16 h-16 relative">
-          <Image
-            src="/icon-512.png"
-            alt=""
-            fill
-            className="object-contain"
+        <div ref={logoRef} className="w-16 h-16 rounded-[4px] bg-white p-2 flex items-center justify-center shadow-xl">
+          <img
+            src="/meddy-mark.png"
+            alt="Meddy Oil & Gas"
+            className="w-full h-full object-contain"
           />
         </div>
       </div>

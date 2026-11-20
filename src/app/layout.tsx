@@ -49,7 +49,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (sessionStorage.getItem("meddy_intro")) {
+                if (sessionStorage.getItem("meddy_intro_v2")) {
                   document.documentElement.dataset.intro = "skip";
                 } else {
                   document.documentElement.dataset.intro = "play";

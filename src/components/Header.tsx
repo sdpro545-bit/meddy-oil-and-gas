@@ -12,7 +12,6 @@ import { EASE, DUR } from "@/lib/motion/tokens";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [headerVisible, setHeaderVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesAccordion, setServicesAccordion] = useState(false);
   const [servicesDropdown, setServicesDropdown] = useState(false);
@@ -30,7 +29,6 @@ export default function Header() {
 
   const pathname = usePathname();
   const { stopScroll, startScroll } = useLenis();
-  const lastScrollY = useRef(0);
 
   // Close menu and dropdown on route change
   useEffect(() => {
@@ -40,40 +38,18 @@ export default function Header() {
     setServicesDropdown(false);
   }, [pathname]);
 
-  // Scroll visibility (hides on scroll down, shows on scroll up)
+  // Keep fixed header visible at all times; transition to solid navy past 80px scroll
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const onScroll = () => {
-      const currentY = window.scrollY;
-      const isScrolledPast = currentY > 80;
-      setScrolled(isScrolledPast);
-
-      if (mobileMenuOpen) return; // Keep visible when menu is open
-
-      if (currentY > 80 && currentY > lastScrollY.current + 5) {
-        // Scrolling down -> hide header
-        setHeaderVisible(false);
-      } else if (currentY < lastScrollY.current - 5 || currentY <= 80) {
-        // Scrolling up or near top -> show header
-        setHeaderVisible(true);
-      }
-      lastScrollY.current = currentY;
+      setScrolled(window.scrollY > 80);
     };
 
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [mobileMenuOpen]);
-
-  // Animate header translateY
-  useEffect(() => {
-    if (!headerRef.current) return;
-    gsap.to(headerRef.current, {
-      y: headerVisible ? 0 : -80,
-      duration: DUR.base,
-      ease: EASE.out,
-    });
-  }, [headerVisible]);
+  }, []);
 
   // Two-stage morph timeline for hamburger button (Apple-style)
   useEffect(() => {
