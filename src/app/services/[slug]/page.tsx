@@ -4,6 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 import { SERVICES_DATA } from "@/lib/data";
+import RevealLines from "@/components/motion/RevealLines";
+import FadeUp from "@/components/motion/FadeUp";
+import Button from "@/components/motion/Button";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -36,9 +39,8 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   return (
     <div className="bg-[#F6F8FB]">
-      {/* Sleek Apple-style Hero Banner */}
+      {/* Sleek Hero Banner */}
       <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 bg-[#0B1E36] text-white overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(246,158,40,0.18),transparent)]" />
         <div className="site-container relative z-10">
           <Link
             href="/services"
@@ -49,25 +51,29 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           </Link>
 
           <div className="max-w-4xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.08] rounded-full border border-white/[0.1] backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
-              <span className="font-mono text-xs font-semibold tracking-wider text-white uppercase">
-                SPECIFICATION // 0{srvIndex + 1}
-              </span>
-            </div>
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold uppercase text-white tracking-tight leading-[0.98]">
+            <FadeUp delay={0.1}>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.08] rounded-[2px] border border-white/[0.1]">
+                <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
+                <span className="font-mono text-xs font-semibold tracking-wider text-white uppercase">
+                  SPECIFICATION // 0{srvIndex + 1}
+                </span>
+              </div>
+            </FadeUp>
+            <RevealLines as="h1" className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold uppercase text-white tracking-tight leading-[0.98]">
               {srv.title}
-            </h1>
-            <p className="font-body text-lg text-white/80 leading-relaxed max-w-2xl pt-2">
-              {srv.shortSummary}
-            </p>
+            </RevealLines>
+            <FadeUp delay={0.25}>
+              <p className="font-body text-lg text-white/80 leading-relaxed max-w-2xl pt-2">
+                {srv.shortSummary}
+              </p>
+            </FadeUp>
           </div>
         </div>
       </section>
 
       {/* Hero Media Block */}
       <div className="site-container py-12">
-        <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full rounded-2xl overflow-hidden shadow-2xl border border-black/[0.06] bg-[#102A47]">
+        <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full rounded-[2px] overflow-hidden shadow-2xl border border-black/[0.06] bg-[#102A47]">
           <Image
             src={srv.image}
             alt={srv.title}
@@ -77,7 +83,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/80 via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6 text-xs font-mono text-white/90 bg-[#0B1E36]/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+          <div className="absolute bottom-6 left-6 text-xs font-mono text-white/90 bg-[#0B1E36]/90 px-4 py-2 rounded-[2px] border border-white/10">
             FIELD PROTOCOL SPECIFIED FOR NIGERIAN WELLHEADS
           </div>
         </div>
@@ -89,9 +95,9 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           {/* Main Copy (8 cols) */}
           <div className="lg:col-span-8 space-y-8">
             <div className="space-y-4">
-              <h2 className="font-display text-3xl font-bold uppercase text-[#0B1E36]">
+              <RevealLines as="h2" className="font-display text-3xl font-bold uppercase text-[#0B1E36]">
                 Operational Framework &amp; Scope
-              </h2>
+              </RevealLines>
               <p className="font-body text-base text-[#2B4260] leading-relaxed">
                 {srv.fullOverview}
               </p>
@@ -128,7 +134,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             </div>
           </div>
 
-          {/* Right Action Sidebar (4 cols) */}
+          {/* Right Action Sidebar (4 cols): Sticky summary */}
           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-28">
             <div className="p-8 apple-card space-y-4">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#F69E28]">
@@ -140,12 +146,13 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               <p className="font-body text-xs text-[#5B6E86] leading-relaxed">
                 Send your field coordinates and programme requirements to our Lekki operations team.
               </p>
-              <Link
+              <Button
                 href={`/contact?service=${encodeURIComponent(srv.title)}`}
-                className="w-full h-12 bg-[#F69E28] hover:bg-[#E08518] text-[#0B1E36] font-bold text-xs uppercase tracking-wider flex items-center justify-center rounded-full transition-all shadow-md active:scale-95"
+                variant="primary"
+                className="w-full"
               >
-                Request Quotation &rarr;
-              </Link>
+                Request Quotation
+              </Button>
             </div>
 
             {/* Next Service Link */}

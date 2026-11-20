@@ -1,32 +1,99 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SERVICES_DATA } from "@/lib/data";
+import { EASE } from "@/lib/motion/tokens";
 
 export default function CapabilitiesStrip() {
   const stripItems = SERVICES_DATA.slice(0, 5);
+  const containerRef = useRef<HTMLElement>(null);
+  const cellsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !containerRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+
+    const ctx = gsap.context(() => {
+      // Hairline dividers draw down (scaleY: 0 to 1) & cells rise 24px with 70ms stagger
+      if (cellsRef.current) {
+        const cells = cellsRef.current.querySelectorAll(".capability-cell");
+        const dividers = cellsRef.current.querySelectorAll(".hairline-divider");
+
+        gsap.fromTo(
+          dividers,
+          { scaleY: 0, transformOrigin: "top" },
+          {
+            scaleY: 1,
+            duration: 0.7,
+            ease: EASE.out,
+            stagger: 0.07,
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+
+        gsap.fromTo(
+          cells,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: EASE.out,
+            stagger: 0.07,
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="relative w-full bg-white border-y border-[#EAEFF5] shadow-sm z-20">
+    <section
+      ref={containerRef}
+      className="relative w-full bg-white border-y border-[#EAEFF5] shadow-sm z-20"
+    >
       <div className="site-container">
         {/* Desktop 5 Equal Columns */}
-        <div className="hidden md:grid md:grid-cols-5 divide-x divide-[#EAEFF5]">
+        <div ref={cellsRef} className="hidden md:grid md:grid-cols-5 relative">
           {stripItems.map((item, index) => (
-            <Link
-              key={item.id}
-              href={`/services/${item.slug}`}
-              className="group py-6 px-4 flex flex-col justify-between hover:bg-[#F6F8FB] transition-all min-h-[96px]"
-            >
-              <div className="flex items-center justify-between text-xs font-mono text-[#5B6E86] group-hover:text-[#F69E28] transition-colors mb-2">
-                <span>0{index + 1}</span>
-                <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-[#F69E28]" />
-              </div>
-              <div className="font-display text-xl lg:text-2xl font-bold uppercase tracking-wide text-[#2B4260] group-hover:text-[#0B1E36] transition-colors line-clamp-2">
-                {item.title.replace(" Services", "")}
-              </div>
-            </Link>
+            <div key={item.id} className="relative flex">
+              {index > 0 && (
+                <div
+                  aria-hidden="true"
+                  className="hairline-divider absolute left-0 top-0 bottom-0 w-[1px] bg-[#EAEFF5] origin-top"
+                />
+              )}
+              <Link
+                href={`/services/${item.slug}`}
+                className="capability-cell group py-6 px-4 flex flex-col justify-between hover:bg-[#F6F8FB] transition-colors min-h-[96px] w-full"
+              >
+                <div className="flex items-center justify-between text-xs font-mono text-[#5B6E86] group-hover:text-[#F69E28] transition-colors mb-2">
+                  <span>0{index + 1}</span>
+                  <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-[#F69E28]" />
+                </div>
+                <div className="font-display text-xl lg:text-2xl font-bold uppercase tracking-wide text-[#2B4260] group-hover:text-[#0B1E36] transition-colors line-clamp-2">
+                  {item.title.replace(" Services", "")}
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
 

@@ -1,110 +1,167 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { EASE } from "@/lib/motion/tokens";
 
 export default function Preloader() {
-  const [visible, setVisible] = useState(false);
-  const [animState, setAnimState] = useState<"initial" | "revealing" | "lifting" | "done">("initial");
+  const [active, setActive] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const word1Ref = useRef<HTMLDivElement>(null);
+  const word2Ref = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Skip preloader for headless browsers, automated audits, or if already seen
-    const isHeadless = navigator.userAgent.includes("HeadlessChrome") || navigator.userAgent.includes("Lighthouse");
-    const hasSeen = sessionStorage.getItem("meddy_intro_seen");
+    // Check if intro has already played in this session or skip query is present
+    const hasSeen = sessionStorage.getItem("meddy_intro");
     const skipQuery = window.location.search.includes("skip_intro");
 
-    if (isHeadless || hasSeen || skipQuery) {
-      setVisible(false);
-      setAnimState("done");
+    if (hasSeen || skipQuery) {
+      setActive(false);
       return;
     }
 
-    setVisible(true);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      sessionStorage.setItem("meddy_intro", "1");
+      setActive(false);
+      return;
+    }
 
-    // Step 1: Reveal logo with Apple ease
-    const t1 = setTimeout(() => {
-      setAnimState("revealing");
-    }, 150);
+    // Real loading promise: fonts ready, assets decoded, minimum hold 1200ms
+    const readyPromise = Promise.all([
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+      new Promise((resolve) => setTimeout(resolve, 1200)),
+    ]);
 
-    // Step 2: Smooth upward wipe
-    const t2 = setTimeout(() => {
-      setAnimState("lifting");
-    }, 1000);
+    const tl = gsap.timeline({
+      defaults: { ease: EASE.out },
+      onComplete: () => {
+        setActive(false);
+      },
+    });
+    timelineRef.current = tl;
 
-    // Step 3: Unmount
-    const t3 = setTimeout(() => {
-      setAnimState("done");
-      setVisible(false);
-      sessionStorage.setItem("meddy_intro_seen", "true");
-    }, 1600);
+    // 0.15s: Logo fills from bottom with clip-path
+    tl.fromTo(
+      logoRef.current,
+      { clipPath: "inset(100% 0% 0% 0%)", opacity: 1 },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8 },
+      0.15
+    )
+      // 0.95s: "MEDDY" and "OIL & GAS LIMITED" rise from masks
+      .fromTo(
+        word1Ref.current,
+        { yPercent: 110, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.7 },
+        0.95
+      )
+      .fromTo(
+        word2Ref.current,
+        { yPercent: 110, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.7 },
+        1.01
+      );
+
+    readyPromise.then(() => {
+      // 1.55s: fade out icon and text
+      tl.to([logoRef.current, word1Ref.current, word2Ref.current], {
+        opacity: 0,
+        duration: 0.16,
+        ease: EASE.out,
+      }, 1.55)
+        // 1.65s: Panel lifts yPercent: 0 to -100
+        .to(containerRef.current, {
+          yPercent: -100,
+          duration: 0.7,
+          ease: EASE.inOut,
+          onStart: () => {
+            sessionStorage.setItem("meddy_intro", "1");
+            window.dispatchEvent(new CustomEvent("meddy_intro_lift"));
+          },
+        }, 1.65);
+    });
+
+    // Skip handler on keypress
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+        skipIntro();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      window.removeEventListener("keydown", handleKeyDown);
+      tl.kill();
     };
   }, []);
 
-  const handleSkip = () => {
-    setAnimState("lifting");
-    setTimeout(() => {
-      setVisible(false);
-      sessionStorage.setItem("meddy_intro_seen", "true");
-    }, 300);
+  const skipIntro = () => {
+    if (!timelineRef.current || !containerRef.current) return;
+    sessionStorage.setItem("meddy_intro", "1");
+    window.dispatchEvent(new CustomEvent("meddy_intro_lift"));
+    gsap.to(containerRef.current, {
+      yPercent: -100,
+      duration: 0.3,
+      ease: EASE.out,
+      onComplete: () => setActive(false),
+    });
   };
 
-  if (!visible) return null;
+  if (!active) return null;
 
   return (
     <div
-      onClick={handleSkip}
-      className={`fixed inset-0 z-[100] bg-[#0B1E36] flex flex-col items-center justify-center transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] cursor-pointer ${
-        animState === "lifting" || animState === "done" ? "-translate-y-full" : "translate-y-0"
-      }`}
+      ref={containerRef}
+      onClick={skipIntro}
+      role="dialog"
+      aria-label="Welcome to Meddy Oil & Gas"
+      className="fixed inset-0 z-[100] bg-[#0B1E36] flex flex-col items-center justify-center cursor-pointer select-none"
     >
-      {/* Background subtle radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(246,158,40,0.12),transparent_70%)] pointer-events-none" />
-
-      <div className="flex flex-col items-center gap-6 relative z-10">
-        {/* Animated Droplet Logo */}
+      <div className="flex flex-col items-center gap-6">
+        {/* Animated Droplet Logo (96px desktop, 80px mobile) */}
         <div
-          className={`w-24 h-24 sm:w-28 sm:h-28 relative transition-all duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] ${
-            animState === "initial"
-              ? "opacity-0 scale-90 translate-y-3"
-              : "opacity-100 scale-100 translate-y-0"
-          }`}
+          ref={logoRef}
+          className="w-20 h-20 sm:w-24 sm:h-24 relative overflow-hidden"
+          style={{ clipPath: "inset(100% 0% 0% 0%)" }}
         >
           <Image
             src="/icon-512.png"
             alt="Meddy Oil & Gas Mark"
             fill
             priority
-            sizes="120px"
-            className="object-contain drop-shadow-[0_8px_24px_rgba(246,158,40,0.35)]"
+            sizes="96px"
+            className="object-contain"
           />
         </div>
 
-        {/* Live Wordmark with Masked Rise */}
-        <div className="overflow-hidden text-center">
-          <div
-            className={`transition-all duration-700 delay-150 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] ${
-              animState === "initial" ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
-            }`}
-          >
-            <div className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white">
+        {/* Wordmark with Masked Rise */}
+        <div className="text-center overflow-hidden">
+          <div className="overflow-hidden">
+            <div
+              ref={word1Ref}
+              className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white leading-none"
+            >
               MEDDY
             </div>
-            <div className="font-body text-xs font-semibold tracking-[0.24em] text-[#F69E28] uppercase mt-1">
+          </div>
+          <div className="overflow-hidden mt-1">
+            <div
+              ref={word2Ref}
+              className="font-body text-xs font-bold tracking-[0.22em] text-[#F69E28] uppercase leading-tight"
+            >
               OIL &amp; GAS LIMITED
             </div>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-8 text-[11px] font-mono tracking-widest uppercase text-white/40 hover:text-white/70 transition-colors">
-        CLICK TO SKIP
+      <div className="absolute bottom-8 text-[11px] font-mono tracking-widest uppercase text-white/40">
+        CLICK OR PRESS ESC TO SKIP
       </div>
     </div>
   );

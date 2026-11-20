@@ -15,7 +15,7 @@ export const COMPANY_FACTS = {
   tagline: "Engineering the Energy Future",
   eyebrow: "Oil and gas services from Lagos",
   address: "8B Ayigoro Street, Springbay Estate, Ikate Elegushi, Lekki Phase 1, Lagos, Nigeria",
-  email: "meddyoilandgas@gmail.com",
+  email: process.env.NEXT_PUBLIC_SITE_EMAIL || "info@meddyoilandgas.com",
   phone: "",
   jurisdiction: "Lekki, Lagos State, Nigeria",
 };
@@ -56,7 +56,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Wellhead and Christmas tree assembly support",
       "Downhole completion tool handling",
     ],
-    image: "/images/service-marine.webp",
+    image: "/images/service-well-construction.webp",
   },
   {
     id: "03",

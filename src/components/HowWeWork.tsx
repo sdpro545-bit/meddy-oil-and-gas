@@ -1,40 +1,107 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { HOW_WE_WORK_STEPS } from "@/lib/data";
+import RevealLines from "@/components/motion/RevealLines";
+import FadeUp from "@/components/motion/FadeUp";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { EASE } from "@/lib/motion/tokens";
 
 export default function HowWeWork() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !sectionRef.current) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Section 6.5: Horizontal line draws with scroll (scrub: 0.5)
+    if (lineRef.current) {
+      gsap.fromTo(
+        lineRef.current,
+        { scaleX: 0, transformOrigin: "left" },
+        {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: stepsRef.current,
+            start: "top 80%",
+            end: "bottom 65%",
+            scrub: 0.5,
+          },
+        }
+      );
+    }
+
+    // Step cards rise with stagger
+    if (stepsRef.current) {
+      const cards = stepsRef.current.children;
+      gsap.from(cards, {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: EASE.out,
+        scrollTrigger: {
+          trigger: stepsRef.current,
+          start: "top 82%",
+          once: true,
+        },
+      });
+    }
+  }, []);
+
   return (
-    <section className="py-24 lg:py-36 bg-[#F6F8FB] border-b border-[#EAEFF5]">
+    <section ref={sectionRef} className="py-24 lg:py-36 bg-[#F6F8FB] border-b border-[#EAEFF5] relative overflow-hidden">
       <div className="site-container">
         {/* Section Header */}
         <div className="max-w-2xl mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/[0.04] rounded-full border border-black/[0.06] mb-3">
-            <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
-            <span className="font-body text-xs font-semibold tracking-wider text-[#0B1E36] uppercase">
-              Operational Delivery
-            </span>
-          </div>
-          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#0B1E36] tracking-tight leading-[0.98]">
+          <FadeUp delay={0.1} y={16}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/[0.04] rounded-[2px] border border-black/[0.06] mb-3">
+              <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
+              <span className="font-body text-xs font-semibold tracking-wider text-[#0B1E36] uppercase">
+                Operational Delivery
+              </span>
+            </div>
+          </FadeUp>
+
+          <RevealLines
+            as="h2"
+            className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#0B1E36] tracking-tight leading-[0.98]"
+          >
             How We Work
-          </h2>
-          <p className="font-body text-base text-[#5B6E86] leading-relaxed pt-3">
-            A structured execution protocol applied systematically across all field contracts.
-          </p>
+          </RevealLines>
+
+          <FadeUp delay={0.2} y={16}>
+            <p className="font-body text-base text-[#5B6E86] leading-relaxed pt-3">
+              A structured execution protocol applied systematically across all field contracts.
+            </p>
+          </FadeUp>
         </div>
 
-        {/* 4-Step Timeline with Apple Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+        {/* Scrubbed connecting line across steps */}
+        <div className="hidden md:block relative mb-8">
+          <div ref={lineRef} className="h-[2px] bg-[#F69E28] w-full origin-left" />
+        </div>
+
+        {/* 4-Step Grid with Reference-Accurate 2px border radius */}
+        <div ref={stepsRef} className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
           {HOW_WE_WORK_STEPS.map((step, idx) => (
             <div
               key={step.step}
-              className="apple-card p-8 space-y-4"
+              className="p-8 space-y-4 rounded-[2px] border border-black/[0.08] bg-white hover:border-[#F69E28]/40 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <span className="font-display text-4xl font-bold text-[#F69E28] font-mono leading-none">
                   {step.step}
                 </span>
-                <span className="text-[10px] font-mono font-bold text-[#5B6E86] uppercase tracking-wider px-2 py-0.5 bg-black/[0.04] rounded-full">
+                <span className="text-[10px] font-mono font-bold text-[#5B6E86] uppercase tracking-wider px-2 py-0.5 bg-black/[0.04] rounded-[2px]">
                   STAGE 0{idx + 1}
                 </span>
               </div>

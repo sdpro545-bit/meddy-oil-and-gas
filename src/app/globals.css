@@ -49,7 +49,6 @@ html {
   font-family: var(--font-body);
   color: var(--text);
   background-color: var(--bg);
-  scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -88,8 +87,9 @@ body {
   background: var(--brand-orange-500);
 }
 
+/* Focus ring standard */
 *:focus-visible {
-  outline: 2px solid var(--focus-ring);
+  outline: 2px solid var(--brand-orange-500);
   outline-offset: 2px;
 }
 
@@ -102,47 +102,21 @@ body {
   padding-right: clamp(20px, 4.5vw, 72px);
 }
 
-/* Sleek Apple-style Glass Cards & Panels */
+/* Apple Cards (Square 2px radius per AGENTS.md) */
 .apple-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 1.25rem;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.apple-card:hover {
-  border-color: rgba(246, 158, 40, 0.3);
-  box-shadow: 0 20px 40px -15px rgba(246, 158, 40, 0.12);
-  transform: translateY(-2px);
+  background: #ffffff;
+  border: 1px solid #EAEFF5;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(11, 30, 54, 0.04);
 }
 
 .apple-card-dark {
-  background: rgba(16, 42, 71, 0.6);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.25rem;
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #102A47;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
 
-.apple-card-dark:hover {
-  border-color: rgba(246, 158, 40, 0.4);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
-}
-
-/* Subtle Apple Glow */
-.apple-glow-orange {
-  position: relative;
-}
-.apple-glow-orange::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  background: radial-gradient(circle at 50% 0%, rgba(246, 158, 40, 0.35), transparent 70%);
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
+/* Skip intro if seen */
+html[data-intro="skip"] [role="dialog"][aria-label="Welcome to Meddy Oil & Gas"] {
+  display: none !important;
 }

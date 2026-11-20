@@ -1,8 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { Mail, MapPin, Phone, Send, CheckCircle2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { COMPANY_FACTS, SERVICES_DATA } from "@/lib/data";
+import RevealLines from "@/components/motion/RevealLines";
+import { EASE } from "@/lib/motion/tokens";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -13,11 +17,60 @@ export default function ContactSection() {
     service: "",
     message: "",
     consent: false,
-    honeypot: "", // Bot prevention
+    honeypot: "",
   });
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !sectionRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+
+    const ctx = gsap.context(() => {
+      // Left info block fade up
+      if (infoRef.current) {
+        gsap.from(infoRef.current.children, {
+          opacity: 0,
+          y: 20,
+          duration: 0.8,
+          ease: EASE.out,
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: infoRef.current,
+            start: "top 85%",
+            once: true,
+          },
+        });
+      }
+
+      // Form fields rise with 60ms stagger as one group
+      if (formRef.current) {
+        const fieldRows = formRef.current.querySelectorAll(".form-row");
+        gsap.from(fieldRows, {
+          opacity: 0,
+          y: 20,
+          duration: 0.7,
+          ease: EASE.out,
+          stagger: 0.06,
+          scrollTrigger: {
+            trigger: formRef.current,
+            start: "top 85%",
+            once: true,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,19 +86,34 @@ export default function ContactSection() {
     }
 
     setStatus("submitting");
+    setErrorMessage("");
 
-    // Simulate API call or mailto fallback
-    setTimeout(() => {
-      setStatus("success");
-    }, 800);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setStatus("success");
+      } else {
+        setErrorMessage(data.error || "Failed to submit inquiry. Please email us directly.");
+        setStatus("error");
+      }
+    } catch (err: any) {
+      setErrorMessage("Network error. Please try again or email us directly.");
+      setStatus("error");
+    }
   };
 
   return (
-    <section id="contact" className="py-24 lg:py-36 bg-[#0B1E36] text-white">
+    <section ref={sectionRef} id="contact" className="py-24 lg:py-36 bg-[#0B1E36] text-white">
       <div className="site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Contact Details (5 cols) */}
-          <div className="lg:col-span-5 space-y-8">
+          <div ref={infoRef} className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#F69E28]" />
@@ -53,9 +121,9 @@ export default function ContactSection() {
                   Direct Inquiries
                 </span>
               </div>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white leading-[0.98]">
+              <RevealLines as="h2" className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white leading-[0.98]">
                 Tell us what you need
-              </h2>
+              </RevealLines>
               <p className="font-body text-base text-white/75 leading-relaxed pt-2">
                 Send your operational scope, location, and project schedule. Our technical team evaluates requirements and responds promptly.
               </p>
@@ -64,7 +132,7 @@ export default function ContactSection() {
             {/* Address & Communication Block */}
             <div className="space-y-6 pt-4 border-t border-white/10">
               <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/[0.12] backdrop-blur-md flex items-center justify-center flex-shrink-0 text-[#F69E28]">
+                <div className="w-11 h-11 rounded-[2px] bg-white/[0.06] border border-white/[0.12] flex items-center justify-center flex-shrink-0 text-[#F69E28]">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -86,7 +154,7 @@ export default function ContactSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/[0.12] backdrop-blur-md flex items-center justify-center flex-shrink-0 text-[#F69E28]">
+                <div className="w-11 h-11 rounded-[2px] bg-white/[0.06] border border-white/[0.12] flex items-center justify-center flex-shrink-0 text-[#F69E28]">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -105,10 +173,10 @@ export default function ContactSection() {
           </div>
 
           {/* Right Column: Inquiry Form (7 cols) */}
-          <div className="lg:col-span-7 bg-[#102A47]/80 backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 sm:p-10 shadow-2xl">
+          <div className="lg:col-span-7 bg-[#102A47] border border-white/[0.12] rounded-[2px] p-8 sm:p-10 shadow-xl">
             {status === "success" ? (
-              <div className="py-12 text-center space-y-4 animate-in fade-in">
-                <div className="w-16 h-16 rounded-full bg-[#F69E28]/20 text-[#F69E28] flex items-center justify-center mx-auto">
+              <div className="py-12 text-center space-y-4">
+                <div className="w-16 h-16 rounded-[2px] bg-[#F69E28]/20 text-[#F69E28] flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="font-display text-3xl font-bold uppercase text-white">
@@ -118,14 +186,15 @@ export default function ContactSection() {
                   Thank you for your inquiry. Our engineering coordination desk in Lagos has logged your submission.
                 </p>
                 <button
+                  type="button"
                   onClick={() => setStatus("idle")}
-                  className="mt-4 px-8 py-3 bg-white/10 hover:bg-white/15 text-white text-xs font-semibold rounded-full uppercase tracking-wider transition-all duration-300"
+                  className="mt-4 px-8 py-3 bg-white/10 hover:bg-white/15 text-white text-xs font-semibold rounded-[2px] uppercase tracking-wider transition-all"
                 >
                   Send another message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 {/* Honeypot field for anti-spam */}
                 <input
                   type="text"
@@ -137,7 +206,7 @@ export default function ContactSection() {
                   autoComplete="off"
                 />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="form-row grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Name */}
                   <div className="space-y-2">
                     <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
@@ -149,7 +218,7 @@ export default function ContactSection() {
                       placeholder="e.g. Tunde Adeyemi"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-xl px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200"
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-[2px] px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:outline-none transition-colors"
                     />
                   </div>
 
@@ -163,12 +232,12 @@ export default function ContactSection() {
                       placeholder="Company name"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-xl px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200"
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-[2px] px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="form-row grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Email */}
                   <div className="space-y-2">
                     <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
@@ -180,7 +249,7 @@ export default function ContactSection() {
                       placeholder="name@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-xl px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200"
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.12] rounded-[2px] px-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:outline-none transition-colors"
                     />
                   </div>
 
@@ -192,7 +261,7 @@ export default function ContactSection() {
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full h-12 bg-[#0B1E36] border border-white/[0.12] rounded-xl px-4 text-white text-sm focus:border-[#F69E28] focus:outline-none transition-colors"
+                      className="w-full h-12 bg-[#0B1E36] border border-white/[0.12] rounded-[2px] px-4 text-white text-sm focus:border-[#F69E28] focus:outline-none transition-colors"
                     >
                       <option value="">Select a capability</option>
                       {SERVICES_DATA.map((s) => (
@@ -208,7 +277,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* Message */}
-                <div className="space-y-2">
+                <div className="form-row space-y-2">
                   <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
                     Scope of Requirement *
                   </label>
@@ -218,19 +287,19 @@ export default function ContactSection() {
                     placeholder="Provide details on well parameters, work timeline, or logistics requirements..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-white/[0.04] border border-white/[0.12] rounded-xl p-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:ring-1 focus:ring-[#F69E28]/40 focus:outline-none transition-all duration-200 resize-none"
+                    className="w-full bg-white/[0.04] border border-white/[0.12] rounded-[2px] p-4 text-white text-sm placeholder-white/30 focus:border-[#F69E28] focus:bg-white/[0.07] focus:outline-none transition-colors resize-none"
                   />
                 </div>
 
                 {/* Consent */}
-                <div className="flex items-start gap-3">
+                <div className="form-row flex items-start gap-3">
                   <input
                     type="checkbox"
                     id="consent"
                     required
                     checked={formData.consent}
                     onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
-                    className="mt-1 w-4 h-4 rounded-md border-white/20 bg-white/[0.05] text-[#F69E28] focus:ring-[#F69E28]"
+                    className="mt-1 w-4 h-4 rounded-[2px] border-white/20 bg-white/[0.05] text-[#F69E28] focus:ring-[#F69E28]"
                   />
                   <label htmlFor="consent" className="text-xs text-white/70 leading-normal">
                     I agree to the processing of submitted technical and business information for quotation and contract evaluation by Meddy Oil &amp; Gas Limited.
@@ -239,20 +308,32 @@ export default function ContactSection() {
 
                 {/* Error Banner */}
                 {status === "error" && (
-                  <div className="p-3 bg-red-950/50 border border-red-500/40 text-red-200 text-xs rounded-xl">
+                  <div className="form-row p-3 bg-red-950/50 border border-red-500/40 text-red-200 text-xs rounded-[2px]">
                     {errorMessage}
                   </div>
                 )}
 
                 {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="w-full h-13 bg-[#F69E28] hover:bg-[#FCB424] active:scale-[0.98] disabled:opacity-50 text-[#0B1E36] font-body text-base font-bold rounded-full flex items-center justify-center gap-3 transition-all duration-300 shadow-xl shadow-[#F69E28]/10 hover:shadow-2xl hover:shadow-[#F69E28]/20"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{status === "submitting" ? "Transmitting..." : "Send Message"}</span>
-                </button>
+                <div className="form-row pt-2">
+                  <button
+                    type="submit"
+                    disabled={status === "submitting"}
+                    className="group relative w-full h-13 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.98] disabled:opacity-50 text-[#0B1E36] font-body text-sm font-bold uppercase tracking-wider rounded-[2px] flex items-center justify-center gap-3 transition-colors duration-200 overflow-hidden cursor-pointer"
+                  >
+                    <span className="relative inline-block overflow-hidden h-[1.2em] leading-tight">
+                      <span className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">
+                        {status === "submitting" ? "Transmitting Scope..." : "Send Message"}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="absolute top-0 left-0 inline-block transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] translate-y-full group-hover:translate-y-0 text-current"
+                      >
+                        {status === "submitting" ? "Transmitting Scope..." : "Send Message"}
+                      </span>
+                    </span>
+                    <Send className="w-4 h-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
+                  </button>
+                </div>
               </form>
             )}
           </div>

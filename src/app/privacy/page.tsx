@@ -11,9 +11,8 @@ export const metadata = {
 export default function PrivacyPage() {
   return (
     <div className="bg-[#F6F8FB]">
-      {/* Sleek Apple-style Hero Banner */}
+      {/* Sleek Hero Banner */}
       <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 bg-[#0B1E36] text-white overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(246,158,40,0.18),transparent)]" />
         <div className="site-container relative z-10 max-w-4xl space-y-4">
           <Link
             href="/"

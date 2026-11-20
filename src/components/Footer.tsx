@@ -1,21 +1,69 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { COMPANY_FACTS, SERVICES_DATA } from "@/lib/data";
+import { EASE } from "@/lib/motion/tokens";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  const ghostRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !footerRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+
+    const ctx = gsap.context(() => {
+      // Footer rises 24px
+      gsap.from(footerRef.current, {
+        y: 24,
+        opacity: 0.9,
+        duration: 0.8,
+        ease: EASE.out,
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 95%",
+          once: true,
+        },
+      });
+
+      // Large MEDDY ghost word slides up from a mask once
+      if (ghostRef.current) {
+        gsap.from(ghostRef.current, {
+          yPercent: 100,
+          opacity: 0,
+          duration: 1.1,
+          ease: EASE.out,
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        });
+      }
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <footer className="bg-[#102A47] text-white border-t border-white/10 pt-16 pb-12">
-      <div className="site-container">
+    <footer
+      ref={footerRef}
+      className="relative bg-[#102A47] text-white border-t border-white/10 pt-16 pb-12 overflow-hidden"
+    >
+      <div className="site-container relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-12 border-b border-white/10">
           {/* Brand Info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <Link href="/" className="flex items-center gap-3 group inline-flex">
-              <div className="w-10 h-10 rounded-[4px] bg-white p-1 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-[2px] bg-white p-1 flex items-center justify-center">
                 <Image
                   src="/favicon-32x32.png"
                   alt="Meddy Oil & Gas Mark"
@@ -130,6 +178,17 @@ export default function Footer() {
               Terms of Engagement
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* Large MEDDY Ghost Word sliding up from a mask */}
+      <div className="w-full overflow-hidden pointer-events-none select-none mt-8 -mb-4">
+        <div
+          ref={ghostRef}
+          aria-hidden="true"
+          className="font-display text-[14vw] font-bold text-white/[0.04] leading-none tracking-tight text-center uppercase whitespace-nowrap"
+        >
+          MEDDY
         </div>
       </div>
     </footer>
