@@ -120,3 +120,13 @@ body {
 html[data-intro="skip"] [role="dialog"][aria-label="Welcome to Meddy Oil & Gas"] {
   display: none !important;
 }
+
+/* Motion pre-hide without flash */
+html.js-motion [data-reveal] {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion [data-reveal] {
+    visibility: visible;
+  }
+}

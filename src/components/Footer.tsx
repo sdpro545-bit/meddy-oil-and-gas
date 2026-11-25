@@ -1,26 +1,27 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import React, { useRef } from "react";
+import AppLink from "@/components/motion/AppLink";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { COMPANY_FACTS, SERVICES_DATA } from "@/lib/data";
 import { EASE } from "@/lib/motion/tokens";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const footerRef = useRef<HTMLElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !footerRef.current) return;
+  useGSAP(
+    () => {
+      if (!footerRef.current) return;
 
-    gsap.registerPlugin(ScrollTrigger);
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
 
-    const ctx = gsap.context(() => {
       // Footer rises 24px
       gsap.from(footerRef.current, {
         y: 24,
@@ -48,10 +49,9 @@ export default function Footer() {
           },
         });
       }
-    }, footerRef);
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: footerRef }
+  );
 
   return (
     <footer
@@ -62,13 +62,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-12 border-b border-white/10">
           {/* Brand Info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <Link href="/" className="flex items-center gap-3 group inline-flex">
+            <AppLink href="/" className="flex items-center gap-3 group inline-flex">
               <div className="w-10 h-10 rounded-[2px] bg-white p-1 flex items-center justify-center">
-                <Image
-                  src="/favicon-32x32.png"
+                <img
+                  src="/meddy-mark.png"
                   alt="Meddy Oil & Gas Mark"
-                  width={32}
-                  height={32}
+                  width={128}
+                  height={128}
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -80,10 +80,10 @@ export default function Footer() {
                   OIL &amp; GAS
                 </span>
               </div>
-            </Link>
+            </AppLink>
 
             <p className="font-body text-sm text-white/70 max-w-sm leading-relaxed pt-2">
-              Integrated energy services, well engineering, and operational logistics for the West African upstream sector.
+              Well construction, oil field services, integrated coordination, FPSO and vessel support, and power delivery in Nigeria.
             </p>
 
             <div className="pt-2 text-xs font-mono text-white/50">
@@ -98,34 +98,34 @@ export default function Footer() {
             </div>
             <ul className="space-y-2 text-sm text-white/70 font-body">
               <li>
-                <Link href="/" className="hover:text-[#F69E28] transition-colors">
+                <AppLink href="/" className="hover:text-[#F69E28] transition-colors">
                   Home
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/about" className="hover:text-[#F69E28] transition-colors">
+                <AppLink href="/about" className="hover:text-[#F69E28] transition-colors">
                   About Us
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/qhse" className="hover:text-[#F69E28] transition-colors">
+                <AppLink href="/qhse" className="hover:text-[#F69E28] transition-colors">
                   QHSE Policy
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-[#F69E28] transition-colors">
+                <AppLink href="/projects" className="hover:text-[#F69E28] transition-colors">
                   Projects
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/careers" className="hover:text-[#F69E28] transition-colors">
+                <AppLink href="/careers" className="hover:text-[#F69E28] transition-colors">
                   Careers
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-[#F69E28] transition-colors">
+                <AppLink href="/contact" className="hover:text-[#F69E28] transition-colors">
                   Contact
-                </Link>
+                </AppLink>
               </li>
             </ul>
           </div>
@@ -138,12 +138,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-white/70 font-body">
               {SERVICES_DATA.map((srv) => (
                 <li key={srv.slug}>
-                  <Link
+                  <AppLink
                     href={`/services/${srv.slug}`}
                     className="hover:text-[#F69E28] transition-colors block line-clamp-1"
                   >
                     {srv.title}
-                  </Link>
+                  </AppLink>
                 </li>
               ))}
             </ul>
@@ -157,11 +157,13 @@ export default function Footer() {
             <div className="text-sm text-white/70 leading-relaxed font-body">
               {COMPANY_FACTS.address}
             </div>
-            <div className="pt-2 text-sm text-[#F69E28]">
-              <a href={`mailto:${COMPANY_FACTS.email}`} className="hover:underline">
-                {COMPANY_FACTS.email}
-              </a>
-            </div>
+            {COMPANY_FACTS.email && (
+              <div className="pt-2 text-sm text-[#F69E28]">
+                <a href={`mailto:${COMPANY_FACTS.email}`} className="hover:underline">
+                  {COMPANY_FACTS.email}
+                </a>
+              </div>
+            )}
           </div>
         </div>
 
@@ -171,12 +173,12 @@ export default function Footer() {
             &copy; {currentYear} {COMPANY_FACTS.name}. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            <AppLink href="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
-            </Link>
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            </AppLink>
+            <AppLink href="/privacy" className="hover:text-white transition-colors">
               Terms of Engagement
-            </Link>
+            </AppLink>
           </div>
         </div>
       </div>

@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Mail, MapPin, Send, CircleCheckBig } from "lucide-react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { COMPANY_FACTS, SERVICES_DATA } from "@/lib/data";
 import RevealLines from "@/components/motion/RevealLines";
 import { EASE } from "@/lib/motion/tokens";
 
-export default function ContactSection() {
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,19 +25,27 @@ export default function ContactSection() {
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("Thanks. We have your message and will reply soon.");
 
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !sectionRef.current) return;
+    if (typeof window === "undefined") return;
+    const svc = new URLSearchParams(window.location.search).get("service");
+    if (svc) {
+      setFormData((prev) => ({ ...prev, service: svc }));
+    }
+  }, []);
 
-    gsap.registerPlugin(ScrollTrigger);
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
 
-    const ctx = gsap.context(() => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
+
       // Left info block fade up
       if (infoRef.current) {
         gsap.from(infoRef.current.children, {
@@ -67,10 +78,9 @@ export default function ContactSection() {
           },
         });
       }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [status]);
+    },
+    { scope: sectionRef, dependencies: [status] }
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,13 +107,16 @@ export default function ContactSection() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        setSuccessMessage(data.message || "Thanks. We have your message and will reply soon.");
         setStatus("success");
       } else {
-        setErrorMessage(data.error || "Failed to submit inquiry. Please email us directly.");
+        setErrorMessage(
+          data.error || "Messages cannot be sent from this page yet. Please try again later."
+        );
         setStatus("error");
       }
-    } catch (err: any) {
-      setErrorMessage("Network error. Please try again or email us directly.");
+    } catch {
+      setErrorMessage("Messages cannot be sent from this page yet. Please try again later.");
       setStatus("error");
     }
   };
@@ -121,11 +134,11 @@ export default function ContactSection() {
                   Direct Inquiries
                 </span>
               </div>
-              <RevealLines as="h2" className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white leading-[0.98]">
+              <RevealLines as={headingAs} className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white leading-[0.98]">
                 Tell us what you need
               </RevealLines>
               <p className="font-body text-base text-white/75 leading-relaxed pt-2">
-                Send your operational scope, location, and project schedule. Our technical team evaluates requirements and responds promptly.
+                Send your operational scope, location, and project schedule. Our coordination team in Lagos reviews incoming inquiries and responds directly.
               </p>
             </div>
 
@@ -153,22 +166,24 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-[2px] bg-white/[0.06] border border-white/[0.12] flex items-center justify-center flex-shrink-0 text-[#F69E28]">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="font-display text-lg font-bold uppercase text-white">
-                    Electronic Mail
+              {COMPANY_FACTS.email && (
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-[2px] bg-white/[0.06] border border-white/[0.12] flex items-center justify-center flex-shrink-0 text-[#F69E28]">
+                    <Mail className="w-5 h-5" />
                   </div>
-                  <a
-                    href={`mailto:${COMPANY_FACTS.email}`}
-                    className="font-body text-sm text-white/80 hover:text-[#F69E28] transition-colors mt-1 block"
-                  >
-                    {COMPANY_FACTS.email}
-                  </a>
+                  <div>
+                    <div className="font-display text-lg font-bold uppercase text-white">
+                      Electronic Mail
+                    </div>
+                    <a
+                      href={`mailto:${COMPANY_FACTS.email}`}
+                      className="font-body text-sm text-white/80 hover:text-[#F69E28] transition-colors mt-1 block"
+                    >
+                      {COMPANY_FACTS.email}
+                    </a>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -177,13 +192,13 @@ export default function ContactSection() {
             {status === "success" ? (
               <div className="py-12 text-center space-y-4">
                 <div className="w-16 h-16 rounded-[2px] bg-[#F69E28]/20 text-[#F69E28] flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
+                  <CircleCheckBig className="w-8 h-8" />
                 </div>
                 <h3 className="font-display text-3xl font-bold uppercase text-white">
-                  Message Dispatched
+                  Message Received
                 </h3>
                 <p className="font-body text-sm text-white/75 max-w-md mx-auto">
-                  Thank you for your inquiry. Our engineering coordination desk in Lagos has logged your submission.
+                  {successMessage}
                 </p>
                 <button
                   type="button"
@@ -199,6 +214,7 @@ export default function ContactSection() {
                 <input
                   type="text"
                   name="honeypot"
+                  aria-label="Leave this field blank"
                   value={formData.honeypot}
                   onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
                   className="hidden"
@@ -209,10 +225,14 @@ export default function ContactSection() {
                 <div className="form-row grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Name */}
                   <div className="space-y-2">
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
+                    <label
+                      htmlFor="contact-name"
+                      className="block text-xs font-semibold uppercase tracking-wider text-white/75"
+                    >
                       Full Name *
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       required
                       placeholder="e.g. Tunde Adeyemi"
@@ -224,10 +244,14 @@ export default function ContactSection() {
 
                   {/* Company */}
                   <div className="space-y-2">
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
+                    <label
+                      htmlFor="contact-company"
+                      className="block text-xs font-semibold uppercase tracking-wider text-white/75"
+                    >
                       Operator / Organisation
                     </label>
                     <input
+                      id="contact-company"
                       type="text"
                       placeholder="Company name"
                       value={formData.company}
@@ -240,10 +264,14 @@ export default function ContactSection() {
                 <div className="form-row grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Email */}
                   <div className="space-y-2">
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
+                    <label
+                      htmlFor="contact-email"
+                      className="block text-xs font-semibold uppercase tracking-wider text-white/75"
+                    >
                       Business Email *
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       required
                       placeholder="name@company.com"
@@ -255,10 +283,14 @@ export default function ContactSection() {
 
                   {/* Service interest */}
                   <div className="space-y-2">
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
+                    <label
+                      htmlFor="contact-service"
+                      className="block text-xs font-semibold uppercase tracking-wider text-white/75"
+                    >
                       Service Scope
                     </label>
                     <select
+                      id="contact-service"
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                       className="w-full h-12 bg-[#0B1E36] border border-white/[0.12] rounded-[2px] px-4 text-white text-sm focus:border-[#F69E28] focus:outline-none transition-colors"
@@ -278,12 +310,17 @@ export default function ContactSection() {
 
                 {/* Message */}
                 <div className="form-row space-y-2">
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-white/75">
+                  <label
+                    htmlFor="contact-message"
+                    className="block text-xs font-semibold uppercase tracking-wider text-white/75"
+                  >
                     Scope of Requirement *
                   </label>
                   <textarea
+                    id="contact-message"
                     required
                     rows={4}
+                    maxLength={5000}
                     placeholder="Provide details on well parameters, work timeline, or logistics requirements..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}

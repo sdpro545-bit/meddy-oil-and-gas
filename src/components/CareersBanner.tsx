@@ -18,7 +18,7 @@ export default function CareersBanner() {
             Build your career with Meddy
           </h2>
           <p className="font-body text-base font-medium text-[#0B1E36]/85 max-w-xl leading-relaxed">
-            We are continuously seeking certified Nigerian engineers, field technicians, and logistics specialists committed to exceptional safety standards.
+            We welcome applications from qualified Nigerian engineers, field technicians, and operations specialists committed to disciplined safety standards.
           </p>
         </div>
 

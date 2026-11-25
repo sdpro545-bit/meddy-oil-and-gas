@@ -1,7 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Shield, Target, Users, Award, ArrowRight } from "lucide-react";
+import PictureImage from "@/components/PictureImage";
+import { Shield, Target, Users, Award } from "lucide-react";
 import { COMPANY_FACTS } from "@/lib/data";
 import RevealLines from "@/components/motion/RevealLines";
 import RevealWords from "@/components/motion/RevealWords";
@@ -72,7 +71,7 @@ export default function AboutPage() {
               Built on Discipline, Reliability, and Safety
             </RevealLines>
             <RevealWords as="p" className="font-body text-base text-[#2B4260] leading-relaxed">
-              Founded to provide disciplined oilfield support services, Meddy Oil &amp; Gas operates from Lekki Phase 1 in Lagos, coordinating rapid equipment mobilization and technical personnel across the Niger Delta and offshore fields.
+              Founded to provide disciplined oilfield support services, Meddy Oil &amp; Gas operates from Lekki Phase 1 in Lagos, coordinating timely equipment mobilisation and technical personnel across the Niger Delta and offshore fields.
             </RevealWords>
             <p className="font-body text-base text-[#2B4260] leading-relaxed">
               We collaborate closely with operating companies to ensure well programmes run safely, efficiently, and in strict adherence to environmental regulations and quality control standards.
@@ -87,13 +86,16 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 relative aspect-[4/3] rounded-[2px] overflow-hidden shadow-xl border border-black/[0.06]">
-            <Image
-              src="/images/about-nigerian-engineer.png"
-              alt="Meddy Oil & Gas field engineer"
-              fill
+          <div className="lg:col-span-6 relative aspect-[4/5] rounded-[2px] overflow-hidden shadow-xl border border-black/[0.06]">
+            <PictureImage
+              stem="about-engineer"
+              widths={[800, 1200]}
+              placeholderKey="about-engineer"
+              alt="Field engineer in an orange hard hat reviewing a tablet beside process pipework"
+              width={1200}
+              height={1500}
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-[center_20%]"
+              className="w-full h-full object-cover object-[center_20%]"
             />
           </div>
         </div>

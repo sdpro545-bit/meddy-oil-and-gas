@@ -17,3 +17,7 @@ export const STAGGER = {
   word: 0.04,
   item: 0.06,
 } as const;
+
+export const HERO_AMBIENT = true;
+export const HERO_VIDEO_ENABLED = false; // Set true once /public/videos/hero-loop.{webm,mp4} exist
+

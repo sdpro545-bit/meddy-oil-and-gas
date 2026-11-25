@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import CapabilitiesStrip from "@/components/CapabilitiesStrip";
+import MissionSection from "@/components/MissionSection";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhyMeddy from "@/components/WhyMeddy";
@@ -13,6 +14,7 @@ export default function HomePage() {
     <>
       <Hero />
       <CapabilitiesStrip />
+      <MissionSection />
       <AboutSection />
       <ServicesSection />
       <WhyMeddy />

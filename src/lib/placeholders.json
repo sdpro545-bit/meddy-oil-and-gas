@@ -1,10 +1,18 @@
 {
-  "hero-desktop": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADwAwCdASoYAA4APu1orU6ppiSiMAgBMB2JZgCdAGlWyIhdRzyNw6uMAP7qid0H62Y47c6NKJcG4LUgsSjKk1ntkLKWfXrrArcwkf490OBycYiEaibqGe+KMaj8a9oAAAA=",
-  "hero-mobile": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABQBQCdASoYACAAPtVUoU2oJKMiN+gBABqJZgCsM1XE5Xrqk316e34Pkv8rCqRNEJ5dNHgA/ornVd0pdr47VtIRf2lHps32DetwW1lGDLhh9NMZ7o63BZTEfbsktomus15VEHFBIX4Tq5vHhL/h4q6qw4bmks8aK06L7j7LK6mqqD2WuuREdm0wsw9SwOAA",
-  "about-engineer": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBQCdASoYACAAPu1qqk6ppiOiMBgIATAdiWQAnTKDOgAkwAzYg4su1E1tkjdsR/hn7gpAAP3MVL9Z6twZL2i96/kwDMPNOpLRJjwAKb5p1DUIsG98YOvB99KTIm2r/ZNGy7U2N4/b3esClKDZUnQ53eo1ja1f7bUoax5liDyWebNx/Ec5uKW+aYAtlsfX/ApSGb1h/O3Szr8eftnRQAHO+L3a5uGaUbiaSN48SoXgYAAA",
-  "about-tank": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAQBQCdASoYABIAPu1mqk2ppaQiMAgBMB2JYwCsM1XCrQPthVZXTfIN5VqVhVt0RwzCAP6M6iaCg54isVMWkKkSeaLxfT44BUkTC1eaYlZXDBNHubszj3KXxx4O+91q5g0T9XO2f8q4khJL2paZAMAA",
-  "mission-team": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAACwAwCdASoYAA4APu1kqk4ppaQiMAgBMB2JaACdMoAAgusyBMCwAAD2vBWuobUiUXiQu9NVcPDEIdlbBCbGcY/BXZoZrnvlVsaq5nMNdiwc8H9gLkQdAe0nnl5g05bCfo8xH5PkT9ik69YaAAA=",
-  "qhse-banner": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAwCdASoYAAoALrV2u12jqampiYC0SxgE6d/2DAuSD5hA8fZv8gAA+6TKtmn5ulLvBDfy2WRjNhfsr0T7JSVh1wXjyVAAAAA=",
-  "qhse-banner-mobile": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBQCdASoYAB4APu1irVAppSQisBgIATAdiUAToAIeELJ7MGeA+a3Fo60UeWChJLVAAAD+xKpwa1r2mtkD54px9B0WRMucI+iWBNZzbloYkLAUe0VX+RX8zPt2fFPpl8yu4r3tmoAwlZjE/BYx54RIwvfx99ch9JFKhEH1oUmpbLFuwIAAAA==",
-  "careers-banner": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAACwAwCdASoYAA4APu1kqk4ppaQiMAgBMB2JaACdMoAAgusyBMCwAAD2vBWuobUiUXiQu9NVcPDEIdlbBCbGcY/BXZoZrnvlVsaq5nMNdiwc8H9gLkQdAe0nnl5g05bCfo8xH5PkT9ik69YaAAA="
+  "hero-desktop": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwBACdASoYAA4APu1orU2ppqSiMAgBMB2JYgCdMoACsMyb2t+mF3nfq1AA9x+D/+lqT+uRwNaNEujwxrA6PPXZ/mQRcwXwM+w8bVBvmAVQ1UafRg8fs5vsKja+sMxbxhygAA==",
+  "hero-mobile": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABwBQCdASoYACAAPu1sqk6ppqOiMBgIATAdiWYAnTMceWiCRpqyItak8k+vbWPPRyK4HKAAAP7UA2tY/j47cORymAnEXggb5va8fIXiFVW+IXcwuBGjQ7gdNCFL57BfvGJaEu1xi4Donk1CRDd0F8lSBGuaPs2TAPUItEWzsue/bgpYAaGBeABUAAA=",
+  "about-engineer": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBQCdASoYAB4APu1qqVAppiOiqA1RMB2JYgCdM0xBqUWOkSDVCdkooDf4bwjMUbGbHbwA/c5jqT1z/3Rxg38g0uXO3Mh8J0hYXKUTK//KTT2+mdfKrw09t6DtlU7PwcTF5OSv3geqr/N+vdyEmZ4qQdDlA3Com2T9AQItsBuZSBXzOkhgOS3YapPuAkq7chzb8I1YXVjOzKp4aDsYCrjQ/zCzEiMAAAA=",
+  "about-tank": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAAAQBQCdASoYABIAPu1orE4ppiSiMAgBMB2JYwC7M2QCrQPdWinsoj6G4LDKQd0yZfcIAP6M6iaCg54isVMWkKkSeaLdIsoPx5BpvRG7strNfRaVVdq1xFpPCXOKg5T21kFQHLraYPq7UeN4lbAAAA==",
+  "mission-team": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAgCdASoYAA4APu1iqU2zpaOiMAgCcB2JQBOgBaSAAP7vMvh53BsoE5XvWiyLD5112jRmjAA=",
+  "qhse-banner": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAgCdASoYAAoAA4BaJYwCw7ECwDfAegfMknmvuNKAAP7xpy8xY/GpMaY1InNNZeq23A8RwtqZGqYlvcVq+a7EVCThze4kQ0cVNAkakAA=",
+  "qhse-banner-mobile": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABwAwCdASoYAB4APu1wsFIzpiSiqAgCcB2JZQAAQn7SG6xc3gAA/u+givqX9soBjJv8ksjtTge1Pn5xLvq9K2kwwAA=",
+  "careers-banner": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADwAgCdASoYAA4APu1iqU2zpaQiMAgCcB2JYwCdAC5JAAD+7zgb8Nj1X9+rFpEHNnMRgE11Mu5Dg8c7Pic1dCgA",
+  "service-well-construction": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAACQBACdASoYABIAPu1oq08ppiOiMBgIATAdiUAVhmX4NTpKD/O21s2s/H3sXwAA/c5ld/QCPWOcx5F1plzs4Mu9i2uw9Lfxz4NemJqadZstJPk4lRfeP3pp3nE1kZVvwLPbqeTbnXHaeQ7VABNIAAAA",
+  "service-oilfield": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADwAgCdASoYABIAPu1srVEzpiQiqAqqcB2JZQAAO308AAD+74Qn8oQ/j22WDEn3J1rcRbmVxMA+XUEIYAAAAA==",
+  "service-wireline-testing": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAQAwCdASoYABIAPu1ur1K6JiQiqAgDQB2JZQCzgBatoQAA/u62AA/xirFN1DEi0jWBCFLlY5lJA3CdG1p33eAA",
+  "service-drilling-engineering": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAQAwCdASoYABIAPu1srFEzpiQiqAqqcB2JZQDE2BXePLgA/u83k/bYhGrSWBlEx2yI54P/tkkXOYsi8AA=",
+  "service-pressure-pumping": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAAAQAwCdASoYABIAPu1qrlCppamiqAqpMB2JYwCdABWdkIAA/u1cy+VhgP/SfFjCaSdGpwmraTLcdXiZKf94eHPzVgAAAA==",
+  "service-integrated": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADwAgCdASoYABIAPu1urlItJiQiqAgBoB2JZQAAP9DMAAD+74I0d96i87Icrl9vfnTR5ZRTgjAmbd+vUAAAAA==",
+  "service-fpso-vessel": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADQAwCdASoYABIAPu1srFE6JaQiqAqrQB2JYwC06BWEkVpEpDQ3pwAA/u83nTWRrXsoBjIra58XFWJwq1z2WhOO0AA=",
+  "service-power": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAAAQAwCdASoYABIAPu1sq1EzpakiqAqqcB2JYwCnFBXeSfAA/u4fS/1ZZEVorK19DRfLpqJzZA3PEJKs6+qVKhiHgAA="
 }

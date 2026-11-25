@@ -35,3 +35,4 @@ Where this file conflicts with user instructions, the client directives win on p
 * **Imagery Ethics:** Generated models are never presented as named real staff or clients. All models Nigerian, wearing correct oil & gas PPE.
 * **Capabilities Strip:** No client logo strip with fake client logos. Use the text capabilities strip.
 * **Copywriting Restraint:** No em dashes (`—`), no en dashes (`–`), no spaced hyphens (` - `). No banned buzzwords (seamless, elevate, unlock, unleash, empower, leverage, harness, streamline, robust, cutting edge, state of the art, next level, game changing, revolutionize, journey, holistic, synergy, world class, best in class, effortless, supercharge). Plain, active, professional tone. Nigerian English conventions (organisation, programme).
+* **Motion Exceptions:** Hero ambient drift allowed: one layer (`[data-p-drift]`), 28s, 3% scale max, paused off-screen and on hidden tabs.

@@ -1,0 +1,83 @@
+{
+  "hero-desktop": {
+    "source": "masters/hero-desktop-raw.png",
+    "output": "masters/hero-desktop.png",
+    "sourceDimensions": { "width": 1376, "height": 768 },
+    "masterDimensions": { "width": 3840, "height": 2160 },
+    "hat": {
+      "asset": "assets/logo/meddy-mark.png",
+      "centerX": 954,
+      "centerY": 120,
+      "width": 44,
+      "rotationDeg": -3,
+      "skewX": -2,
+      "textureMultiplyOpacity": 0.12,
+      "notes": "Centred on white hard hat dome above safety glasses rim, no white tile"
+    },
+    "chest": {
+      "asset": "assets/logo/meddy-mark-on-white-patch.png",
+      "centerX": 977,
+      "centerY": 538,
+      "width": 42,
+      "rotationDeg": 10,
+      "skewX": 2,
+      "stitchedEdge": true,
+      "textureMultiplyOpacity": 0.12,
+      "notes": "Seated inside existing blue rectangular chest patch with fabric visible around"
+    }
+  },
+  "hero-mobile": {
+    "source": "masters/hero-mobile-raw.png",
+    "output": "masters/hero-mobile.png",
+    "sourceDimensions": { "width": 896, "height": 1200 },
+    "masterDimensions": { "width": 2250, "height": 3000 },
+    "hat": {
+      "asset": "assets/logo/meddy-mark.png",
+      "centerX": 438,
+      "centerY": 384,
+      "width": 52,
+      "rotationDeg": -3,
+      "skewX": -1,
+      "textureMultiplyOpacity": 0.12,
+      "notes": "Centred on white hard hat dome above safety glasses rim, no white tile"
+    },
+    "chest": {
+      "asset": "assets/logo/meddy-mark-on-white-patch.png",
+      "centerX": 502,
+      "centerY": 915,
+      "width": 54,
+      "rotationDeg": 10,
+      "skewX": 2,
+      "stitchedEdge": true,
+      "textureMultiplyOpacity": 0.12,
+      "notes": "Seated inside existing blue rectangular chest patch with fabric visible around"
+    }
+  },
+  "about-engineer": {
+    "source": "masters/about-engineer.png",
+    "output": "masters/about-engineer-branded.png",
+    "sourceDimensions": { "width": 896, "height": 1200 },
+    "masterDimensions": { "width": 2400, "height": 3000 },
+    "hat": {
+      "asset": "assets/logo/meddy-mark.png",
+      "centerX": 507,
+      "centerY": 295,
+      "width": 48,
+      "rotationDeg": -2,
+      "skewX": 1,
+      "textureMultiplyOpacity": 0.12,
+      "notes": "Centred directly on orange hard hat circular patch, no white tile"
+    },
+    "chest": {
+      "asset": "assets/logo/meddy-mark-on-white-patch.png",
+      "centerX": 600,
+      "centerY": 704,
+      "width": 48,
+      "rotationDeg": 4,
+      "skewX": -1,
+      "stitchedEdge": true,
+      "textureMultiplyOpacity": 0.12,
+      "notes": "Seated inside existing blank navy chest patch with fabric visible around"
+    }
+  }
+}

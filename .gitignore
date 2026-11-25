@@ -3,6 +3,10 @@ node_modules
 .DS_Store
 *.log
 
+masters/
+qa/
 .vercel
-
-.vercel
+.env*
+!.env.example
+eng.traineddata
+tsconfig.tsbuildinfo

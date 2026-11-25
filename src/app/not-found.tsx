@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import AppLink from "@/components/motion/AppLink";
 import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
@@ -16,13 +16,13 @@ export default function NotFound() {
           The requested page or operational record cannot be located on the Meddy Oil &amp; Gas network.
         </p>
         <div className="pt-4">
-          <Link
+          <AppLink
             href="/"
             className="inline-flex items-center gap-2 h-12 px-6 bg-[#F69E28] hover:bg-[#E08518] text-[#0B1E36] font-semibold text-sm rounded-[2px] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Homepage</span>
-          </Link>
+          </AppLink>
         </div>
       </div>
     </div>

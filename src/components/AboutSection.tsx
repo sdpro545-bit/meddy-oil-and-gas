@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
+import React, { useRef } from "react";
+import PictureImage from "@/components/PictureImage";
 import { Check, Star } from "lucide-react";
 import { SITE_STATS } from "@/lib/data";
 import Button from "@/components/motion/Button";
@@ -9,8 +9,11 @@ import RevealLines from "@/components/motion/RevealLines";
 import RevealWords from "@/components/motion/RevealWords";
 import FadeUp from "@/components/motion/FadeUp";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { EASE } from "@/lib/motion/tokens";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -24,95 +27,96 @@ export default function AboutSection() {
     "We adhere to rigorous quality control",
   ];
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !sectionRef.current) return;
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+      // Section 6.3 About block scroll choreography:
+      // Subheading orange rule draws from the left (900ms)
+      if (orangeRuleRef.current) {
+        gsap.fromTo(
+          orangeRuleRef.current,
+          { scaleX: 0, transformOrigin: "left" },
+          {
+            scaleX: 1,
+            duration: 0.9,
+            ease: EASE.out,
+            scrollTrigger: {
+              trigger: orangeRuleRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
 
-    // Section 6.3 About block scroll choreography:
-    // Subheading orange rule draws from the left (900ms)
-    if (orangeRuleRef.current) {
-      gsap.fromTo(
-        orangeRuleRef.current,
-        { scaleX: 0, transformOrigin: "left" },
-        {
-          scaleX: 1,
-          duration: 0.9,
-          ease: EASE.out,
+      // Images unmask: clip-path inset(0 0 100% 0) to inset(0) + scale 1.08 to 1
+      if (tankImageRef.current) {
+        gsap.fromTo(
+          tankImageRef.current,
+          { clipPath: "inset(0% 0% 100% 0%)", scale: 1.08 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1.0,
+            duration: 1.1,
+            ease: EASE.out,
+            scrollTrigger: {
+              trigger: tankImageRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+
+        // 6% parallax in opposite direction
+        gsap.to(tankImageRef.current, {
+          yPercent: -6,
+          ease: "none",
           scrollTrigger: {
-            trigger: orangeRuleRef.current,
-            start: "top 85%",
-            once: true,
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
           },
-        }
-      );
-    }
+        });
+      }
 
-    // Images unmask: clip-path inset(0 0 100% 0) to inset(0) + scale 1.08 to 1
-    if (tankImageRef.current) {
-      gsap.fromTo(
-        tankImageRef.current,
-        { clipPath: "inset(0% 0% 100% 0%)", scale: 1.08 },
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          scale: 1.0,
-          duration: 1.1,
-          ease: EASE.out,
+      if (engineerImageRef.current) {
+        gsap.fromTo(
+          engineerImageRef.current,
+          { clipPath: "inset(0% 0% 100% 0%)", scale: 1.08 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1.0,
+            duration: 1.1,
+            ease: EASE.out,
+            delay: 0.15,
+            scrollTrigger: {
+              trigger: engineerImageRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+
+        // 12% parallax in opposite direction
+        gsap.to(engineerImageRef.current, {
+          yPercent: 12,
+          ease: "none",
           scrollTrigger: {
-            trigger: tankImageRef.current,
-            start: "top 80%",
-            once: true,
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
           },
-        }
-      );
-
-      // 6% parallax in opposite direction
-      gsap.to(tankImageRef.current, {
-        yPercent: -6,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.6,
-        },
-      });
-    }
-
-    if (engineerImageRef.current) {
-      gsap.fromTo(
-        engineerImageRef.current,
-        { clipPath: "inset(0% 0% 100% 0%)", scale: 1.08 },
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          scale: 1.0,
-          duration: 1.1,
-          ease: EASE.out,
-          delay: 0.15,
-          scrollTrigger: {
-            trigger: engineerImageRef.current,
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
-
-      // 12% parallax in opposite direction
-      gsap.to(engineerImageRef.current, {
-        yPercent: 12,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.6,
-        },
-      });
-    }
-  }, []);
+        });
+      }
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-36 bg-[#F6F8FB] overflow-hidden">
@@ -144,12 +148,15 @@ export default function AboutSection() {
               ref={tankImageRef}
               className="relative aspect-[4/3] w-full rounded-[2px] overflow-hidden border border-black/[0.06] bg-[#EAEFF5]"
             >
-              <Image
-                src="/images/about-tank.webp"
+              <PictureImage
+                stem="about-tank"
+                widths={[800, 1200]}
+                placeholderKey="about-tank"
                 alt="Steel storage tank with a yellow access staircase"
-                fill
+                width={1200}
+                height={900}
                 sizes="(max-width: 1024px) 100vw, 25vw"
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/50 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-3 left-3 text-[10px] font-mono font-bold tracking-wider text-white/90 bg-[#0B1E36] px-2.5 py-1 rounded-[2px] border border-white/10">
@@ -165,7 +172,7 @@ export default function AboutSection() {
               as="p"
               className="font-body text-base lg:text-lg text-[#2B4260] leading-relaxed"
             >
-              Meddy Oil &amp; Gas Limited is an oil and gas services company based in Lekki, Lagos. We support exploration, drilling, well construction, and asset maintenance for operators across Nigeria who require disciplined, dependable delivery.
+              Meddy Oil &amp; Gas Limited is an oil and gas services company based in Lekki, Lagos. We work with operators across Nigeria on well construction, oil field services, integrated coordination, offshore vessel support, and power projects.
             </RevealWords>
 
             {/* Subheading with Orange Rule */}
@@ -223,7 +230,7 @@ export default function AboutSection() {
               {/* Active Fields */}
               <div className="flex items-baseline gap-2">
                 <div className="font-display text-4xl font-bold text-[#0B1E36]">
-                  {SITE_STATS.activeFields ?? "06"}
+                  {SITE_STATS.activeFields ?? "05"}
                 </div>
                 <div className="text-xs font-semibold uppercase text-[#5B6E86]">
                   {SITE_STATS.activeFields ? "Active Fields" : "Core Capabilities"}
@@ -245,12 +252,15 @@ export default function AboutSection() {
               ref={engineerImageRef}
               className="relative aspect-[4/5] w-full rounded-[2px] overflow-hidden border border-black/[0.06] bg-[#EAEFF5]"
             >
-              <Image
-                src="/images/about-engineer-1200.webp"
+              <PictureImage
+                stem="about-engineer"
+                widths={[800, 1200]}
+                placeholderKey="about-engineer"
                 alt="Field engineer in an orange hard hat reviewing a tablet beside process pipework"
-                fill
+                width={1200}
+                height={1500}
                 sizes="(max-width: 1024px) 100vw, 25vw"
-                className="object-cover object-[center_20%]"
+                className="w-full h-full object-cover object-[center_20%]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/50 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-3 left-3 text-[10px] font-mono font-bold tracking-wider text-white/90 bg-[#0B1E36] px-2.5 py-1 rounded-[2px] border border-white/10">

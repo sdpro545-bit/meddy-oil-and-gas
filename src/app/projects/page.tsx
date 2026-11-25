@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import PictureImage from "@/components/PictureImage";
+import AppLink from "@/components/motion/AppLink";
 import { ArrowRight, FolderKanban } from "lucide-react";
 import RevealLines from "@/components/motion/RevealLines";
 import FadeUp from "@/components/motion/FadeUp";
@@ -9,40 +9,43 @@ import Button from "@/components/motion/Button";
 export const metadata = {
   title: "Projects & Track Record | Meddy Oil & Gas Limited",
   description:
-    "Review representative case studies and operational project frameworks for Meddy Oil & Gas Limited.",
+    "Review representative operational project frameworks for Meddy Oil & Gas Limited.",
 };
 
 export default function ProjectsPage() {
   const projectShells = [
     {
       id: "proj-1",
-      title: "Offshore Well Construction Support",
+      title: "Well Construction & Wellhead Support",
       basin: "Niger Delta Basin",
-      scope: "Casing running coordination and high-pressure wellhead installation support.",
-      image: "/images/service-well-construction.webp",
-      status: "FIELD OPERATION RECORD",
+      scope: "Tubular running coordination and high-pressure wellhead assembly support.",
+      imageStem: "service-well-construction",
+      imageAlt: "Technicians checking flange bolts on a wellhead",
+      status: "DEV SHELL // DRAFT COPY",
     },
     {
       id: "proj-2",
-      title: "Cased Hole Wireline Diagnostic Campaign",
-      basin: "Shallow Offshore Asset",
-      scope: "Electric wireline logging, pressure testing, and mechanical zone isolation.",
-      image: "/images/service-wireline.webp",
-      status: "INTERVENTION RECORD",
+      title: "Cased-Hole Wireline & Well Testing",
+      basin: "Onshore & Swamp Assets",
+      scope: "Slickline mechanical intervention, wireline logging, and surface flow testing support.",
+      imageStem: "service-wireline-testing",
+      imageAlt: "Wireline equipment rigged up at a wellhead",
+      status: "DEV SHELL // DRAFT COPY",
     },
     {
       id: "proj-3",
-      title: "Pipeline Infrastructure & Facilities Integrity",
-      basin: "Western Onshore Hub",
-      scope: "Non-destructive testing, corrosion monitoring, and station valve maintenance.",
-      image: "/images/service-pipeline.webp",
-      status: "INTEGRITY AUDIT RECORD",
+      title: "Integrated Multi-Discipline Coordination",
+      basin: "Lagos & Niger Delta Corridor",
+      scope: "Unified scheduling across drilling engineering, pumping spreads, and crew mobilisation.",
+      imageStem: "service-integrated",
+      imageAlt: "Engineers coordinating a project in an operations room",
+      status: "DEV SHELL // DRAFT COPY",
     },
   ];
 
   return (
     <div className="bg-[#F6F8FB]">
-      {/* Sleek Hero Banner */}
+      {/* DRAFT COPY */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 bg-[#0B1E36] text-white overflow-hidden border-b border-white/[0.08]">
         <div className="site-container relative z-10">
           <div className="max-w-3xl space-y-4">
@@ -54,12 +57,15 @@ export default function ProjectsPage() {
                 </span>
               </div>
             </FadeUp>
-            <RevealLines as="h1" className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold uppercase text-white tracking-tight leading-[0.98]">
+            <RevealLines
+              as="h1"
+              className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold uppercase text-white tracking-tight leading-[0.98]"
+            >
               Representative Projects
             </RevealLines>
             <FadeUp delay={0.25}>
               <p className="font-body text-lg text-white/80 leading-relaxed max-w-2xl pt-2">
-                Detailed case studies and project records demonstrating disciplined technical execution and safety compliance across Nigerian fields.
+                Structured project frameworks outlining how Meddy Oil &amp; Gas coordinates technical execution and field safety across Nigerian operations.
               </p>
             </FadeUp>
           </div>
@@ -69,49 +75,51 @@ export default function ProjectsPage() {
       {/* Projects Grid */}
       <div className="site-container py-16 lg:py-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {projectShells.map((p) => (
+          {projectShells.map((proj) => (
             <div
-              key={p.id}
+              key={proj.id}
               className="apple-card overflow-hidden flex flex-col justify-between"
             >
               <div>
-                <div className="relative aspect-[16/10] w-full bg-[#102A47]">
-                  <Image
-                    src={p.image}
-                    alt={p.title}
-                    fill
+                <div className="relative aspect-[4/3] w-full bg-[#102A47]">
+                  <PictureImage
+                    stem={`${proj.imageStem}-thumb`}
+                    placeholderKey={proj.imageStem}
+                    alt={proj.imageAlt}
+                    width={800}
+                    height={600}
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-3 left-3 text-[10px] font-mono font-bold uppercase bg-[#0B1E36]/90 text-[#F69E28] px-3 py-1 rounded-[2px] border border-white/10">
-                    {p.status}
+                  <div className="absolute top-3 left-3 text-[10px] font-mono font-bold text-[#0B1E36] bg-[#F69E28] px-2.5 py-1 rounded-[2px]">
+                    {proj.status}
                   </div>
                 </div>
 
                 <div className="p-6 space-y-3">
-                  <div className="text-xs font-mono text-[#5B6E86] uppercase tracking-wider">
-                    {p.basin}
+                  <div className="text-xs font-mono uppercase tracking-wider text-[#5B6E86]">
+                    {proj.basin}
                   </div>
                   <h2 className="font-display text-2xl font-bold uppercase text-[#0B1E36]">
-                    {p.title}
+                    {proj.title}
                   </h2>
                   <p className="font-body text-sm text-[#2B4260] leading-relaxed">
-                    {p.scope}
+                    {proj.scope}
                   </p>
                 </div>
               </div>
 
               <div className="p-6 pt-0 border-t border-[#EAEFF5] mt-4 flex items-center justify-between">
-                <span className="text-xs font-mono text-[#5B6E86]">
-                  LOGGED SPECIFICATION
+                <span className="text-xs font-mono text-[#5B6E86] pt-4">
+                  PROJECT FRAMEWORK
                 </span>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#F69E28] hover:text-[#E08518] transition-colors"
+                <AppLink
+                  href={`/contact?service=${encodeURIComponent(proj.title)}`}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#F69E28] hover:text-[#E08518] transition-colors pt-4"
                 >
                   <span>Inquire</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                </AppLink>
               </div>
             </div>
           ))}
@@ -121,8 +129,14 @@ export default function ProjectsPage() {
         <div className="mt-12 p-6 apple-card flex items-center gap-4 text-xs text-[#5B6E86]">
           <FolderKanban className="w-5 h-5 text-[#F69E28] flex-shrink-0" />
           <p>
-            Detailed project logs, casing tallies, and client references are subject to non-disclosure agreements. Verified operators may request specific qualification dossiers through our Lekki office.
+            Project briefs and client references are subject to operator confidentiality agreements and pending client sign-off prior to publication.
           </p>
+        </div>
+
+        <div className="mt-10 text-center">
+          <Button href="/contact" variant="primary" showArrow={true}>
+            Discuss a Scope
+          </Button>
         </div>
       </div>
     </div>

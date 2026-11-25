@@ -1,15 +1,18 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import React, { useState, useRef } from "react";
+import AppLink from "@/components/motion/AppLink";
+import PictureImage from "@/components/PictureImage";
 import { ArrowUpRight } from "lucide-react";
 import { SERVICES_DATA } from "@/lib/data";
 import RevealLines from "@/components/motion/RevealLines";
 import FadeUp from "@/components/motion/FadeUp";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { EASE } from "@/lib/motion/tokens";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function ServicesSection() {
   const [activeHover, setActiveHover] = useState<string>(SERVICES_DATA[0].id);
@@ -19,29 +22,30 @@ export default function ServicesSection() {
   const activeService =
     SERVICES_DATA.find((s) => s.id === activeHover) || SERVICES_DATA[0];
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !rowsRef.current) return;
+  useGSAP(
+    () => {
+      if (!rowsRef.current) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
 
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Section 6.4: Each row rises 32px with 90ms stagger
-    const rows = rowsRef.current.children;
-    gsap.from(rows, {
-      y: 32,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.09,
-      ease: EASE.out,
-      scrollTrigger: {
-        trigger: rowsRef.current,
-        start: "top 80%",
-        once: true,
-      },
-    });
-  }, []);
+      // Section 6.4: Each row rises 32px with 90ms stagger
+      const rows = rowsRef.current.children;
+      gsap.from(rows, {
+        y: 32,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.09,
+        ease: EASE.out,
+        scrollTrigger: {
+          trigger: rowsRef.current,
+          start: "top 80%",
+          once: true,
+        },
+      });
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-36 bg-[#0B1E36] text-white overflow-hidden">
@@ -76,14 +80,13 @@ export default function ServicesSection() {
           {/* Left Column: Numbered Service Rows (7 cols) */}
           <div ref={rowsRef} className="lg:col-span-7 divide-y divide-white/10">
             {SERVICES_DATA.map((srv) => {
-              const isSelected = activeHover === srv.id;
               return (
                 <div
                   key={srv.id}
                   onMouseEnter={() => setActiveHover(srv.id)}
                   className="group py-6 transition-all duration-200 cursor-pointer"
                 >
-                  <Link
+                  <AppLink
                     href={`/services/${srv.slug}`}
                     className="flex items-start justify-between gap-6"
                   >
@@ -103,16 +106,18 @@ export default function ServicesSection() {
                     <div className="w-10 h-10 rounded-[2px] border border-white/15 flex items-center justify-center flex-shrink-0 group-hover:bg-[#F69E28] group-hover:border-[#F69E28] group-hover:text-[#0B1E36] transition-all text-white/80">
                       <ArrowUpRight className="w-5 h-5 transition-transform duration-200 group-hover:rotate-45" />
                     </div>
-                  </Link>
+                  </AppLink>
 
                   {/* Mobile Preview Image (shown inline on mobile only) */}
-                  <div className="lg:hidden mt-4 relative aspect-[16/9] w-full rounded-[2px] overflow-hidden border border-white/10">
-                    <Image
-                      src={srv.image}
-                      alt={srv.title}
-                      fill
+                  <div className="lg:hidden mt-4 relative aspect-[4/3] w-full rounded-[2px] overflow-hidden border border-white/10">
+                    <PictureImage
+                      stem={`${srv.imageStem}-thumb`}
+                      placeholderKey={srv.imageStem}
+                      alt={srv.imageAlt}
+                      width={800}
+                      height={600}
                       sizes="100vw"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </div>
@@ -120,16 +125,18 @@ export default function ServicesSection() {
             })}
           </div>
 
-          {/* Right Column: Desktop Sticky Image Preview Frame (5 cols) */}
+          {/* Right Column: Desktop Sticky Image Preview Frame (5 cols, 4:5 portrait preview) */}
           <div className="hidden lg:block lg:col-span-5 sticky top-28">
-            <div className="relative aspect-[4/3] w-full rounded-[2px] overflow-hidden border border-white/[0.12] bg-[#102A47]">
-              <Image
-                key={activeService.image}
-                src={activeService.image}
-                alt={activeService.title}
-                fill
+            <div className="relative aspect-[4/5] w-full rounded-[2px] overflow-hidden border border-white/[0.12] bg-[#102A47]">
+              <PictureImage
+                key={activeService.imageStem}
+                stem={`${activeService.imageStem}-preview`}
+                placeholderKey={activeService.imageStem}
+                alt={activeService.imageAlt}
+                width={1200}
+                height={1500}
                 sizes="40vw"
-                className="object-cover transition-transform duration-700 hover:scale-[1.04]"
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.04]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36]/90 via-[#0B1E36]/20 to-transparent pointer-events-none" />
               <div className="absolute bottom-6 left-6 right-6 space-y-2">

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import React from "react";
+import AppLink from "@/components/motion/AppLink";
 import { ArrowRight } from "lucide-react";
 
 interface ButtonProps {
@@ -25,8 +25,6 @@ export default function Button({
   disabled = false,
   onClick,
 }: ButtonProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
   const baseStyles =
     "group relative inline-flex items-center justify-center gap-3 h-13 px-7 text-sm font-bold uppercase tracking-wider rounded-[2px] transition-colors duration-200 select-none overflow-hidden active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none";
 
@@ -72,14 +70,12 @@ export default function Button({
 
   if (href) {
     return (
-      <Link
+      <AppLink
         href={href}
         className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         {content}
-      </Link>
+      </AppLink>
     );
   }
 
@@ -89,8 +85,6 @@ export default function Button({
       disabled={disabled}
       onClick={onClick}
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {content}
     </button>

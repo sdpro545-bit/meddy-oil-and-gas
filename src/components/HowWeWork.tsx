@@ -1,61 +1,65 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { HOW_WE_WORK_STEPS } from "@/lib/data";
 import RevealLines from "@/components/motion/RevealLines";
 import FadeUp from "@/components/motion/FadeUp";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { EASE } from "@/lib/motion/tokens";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function HowWeWork() {
   const sectionRef = useRef<HTMLElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !sectionRef.current) return;
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+      // Section 6.5: Horizontal line draws with scroll (scrub: 0.5)
+      if (lineRef.current) {
+        gsap.fromTo(
+          lineRef.current,
+          { scaleX: 0, transformOrigin: "left" },
+          {
+            scaleX: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: stepsRef.current,
+              start: "top 80%",
+              end: "bottom 65%",
+              scrub: 0.5,
+            },
+          }
+        );
+      }
 
-    // Section 6.5: Horizontal line draws with scroll (scrub: 0.5)
-    if (lineRef.current) {
-      gsap.fromTo(
-        lineRef.current,
-        { scaleX: 0, transformOrigin: "left" },
-        {
-          scaleX: 1,
-          ease: "none",
+      // Step cards rise with stagger
+      if (stepsRef.current) {
+        const cards = stepsRef.current.children;
+        gsap.from(cards, {
+          y: 28,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: EASE.out,
           scrollTrigger: {
             trigger: stepsRef.current,
-            start: "top 80%",
-            end: "bottom 65%",
-            scrub: 0.5,
+            start: "top 82%",
+            once: true,
           },
-        }
-      );
-    }
-
-    // Step cards rise with stagger
-    if (stepsRef.current) {
-      const cards = stepsRef.current.children;
-      gsap.from(cards, {
-        y: 28,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: EASE.out,
-        scrollTrigger: {
-          trigger: stepsRef.current,
-          start: "top 82%",
-          once: true,
-        },
-      });
-    }
-  }, []);
+        });
+      }
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section ref={sectionRef} className="py-24 lg:py-36 bg-[#F6F8FB] border-b border-[#EAEFF5] relative overflow-hidden">

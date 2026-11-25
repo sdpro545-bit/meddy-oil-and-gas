@@ -3,31 +3,41 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/build-search-index.mjs",
     "dev": "next dev -p 3000",
+    "prebuild": "node scripts/build-search-index.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "qa:images": "node scripts/qa-images.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.1.0",
     "@fontsource/barlow-condensed": "^5.1.0",
     "@gsap/react": "^2.1.2",
     "clsx": "^2.1.1",
-    "gsap": "^3.12.5",
+    "gsap": "^3.15.0",
     "lenis": "^1.1.20",
     "lucide-react": "^1.16.0",
+    "minisearch": "^7.2.0",
     "next": "^15.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^20.17.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.29",
+    "lighthouse": "^13.6.0",
+    "playwright": "^1.65.1",
     "postcss": "^8.5.0",
     "tailwindcss": "^4.0.0",
+    "tesseract.js": "^7.0.0",
     "typescript": "^5.7.0"
   }
 }
