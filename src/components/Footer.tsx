@@ -85,10 +85,6 @@ export default function Footer() {
             <p className="font-body text-sm text-white/70 max-w-sm leading-relaxed pt-2">
               Well construction, oil field services, integrated coordination, FPSO and vessel support, and power delivery in Nigeria.
             </p>
-
-            <div className="pt-2 text-xs font-mono text-white/50">
-              RC NO: [CLIENT_TO_CONFIRM]
-            </div>
           </div>
 
           {/* Quick Links (2 cols) */}
@@ -183,14 +179,14 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Large MEDDY Ghost Word sliding up from a mask */}
+      {/* Large MEDDY OIL & GAS Ghost Word sliding up from a mask */}
       <div className="w-full overflow-hidden pointer-events-none select-none mt-8 -mb-4">
         <div
           ref={ghostRef}
           aria-hidden="true"
-          className="font-display text-[14vw] font-bold text-white/[0.04] leading-none tracking-tight text-center uppercase whitespace-nowrap"
+          className="font-display text-[11vw] font-bold text-white/[0.04] leading-none tracking-tight text-center uppercase whitespace-nowrap"
         >
-          MEDDY
+          Meddy Oil &amp; Gas
         </div>
       </div>
     </footer>

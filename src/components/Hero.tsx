@@ -492,6 +492,7 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
+      id="hero"
       data-hero-root=""
       className="relative min-h-[100svh] lg:min-h-[820px] lg:max-h-[940px] w-full flex items-end md:items-center justify-center overflow-hidden bg-[#0B1E36]"
     >

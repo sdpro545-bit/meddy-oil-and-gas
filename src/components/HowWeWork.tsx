@@ -96,17 +96,14 @@ export default function HowWeWork() {
 
         {/* 4-Step Grid with Reference-Accurate 2px border radius */}
         <div ref={stepsRef} className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-          {HOW_WE_WORK_STEPS.map((step, idx) => (
+          {HOW_WE_WORK_STEPS.map((step) => (
             <div
               key={step.step}
               className="p-8 space-y-4 rounded-[2px] border border-black/[0.08] bg-white hover:border-[#F69E28]/40 transition-colors"
             >
-              <div className="flex items-center justify-between">
+              <div>
                 <span className="font-display text-4xl font-bold text-[#F69E28] font-mono leading-none">
                   {step.step}
-                </span>
-                <span className="text-[10px] font-mono font-bold text-[#5B6E86] uppercase tracking-wider px-2 py-0.5 bg-black/[0.04] rounded-[2px]">
-                  STAGE 0{idx + 1}
                 </span>
               </div>
               <h3 className="font-display text-2xl font-bold uppercase text-[#0B1E36]">

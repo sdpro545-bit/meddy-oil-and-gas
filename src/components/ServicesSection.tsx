@@ -29,20 +29,33 @@ export default function ServicesSection() {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) return;
 
-      // Section 6.4: Each row rises 32px with 90ms stagger
-      const rows = rowsRef.current.children;
-      gsap.from(rows, {
-        y: 32,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.09,
-        ease: EASE.out,
-        scrollTrigger: {
-          trigger: rowsRef.current,
-          start: "top 80%",
-          once: true,
-        },
+      const rows = Array.from(rowsRef.current.children) as HTMLElement[];
+      rows.forEach((row, idx) => {
+        const rect = row.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.96) {
+          gsap.set(row, { opacity: 1, y: 0 });
+          return;
+        }
+        gsap.fromTo(
+          row,
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            delay: Math.min(idx * 0.05, 0.2),
+            ease: EASE.out,
+            clearProps: "transform,opacity",
+            scrollTrigger: {
+              trigger: row,
+              start: "top 96%",
+              once: true,
+            },
+          }
+        );
       });
+
+      ScrollTrigger.refresh();
     },
     { scope: sectionRef }
   );

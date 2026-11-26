@@ -20,6 +20,8 @@ export default function Header() {
   const [servicesDropdown, setServicesDropdown] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [canHover, setCanHover] = useState(false);
+  const pathname = usePathname();
+  const [heroVisible, setHeroVisible] = useState(pathname !== "/");
 
   const headerRef = useRef<HTMLElement>(null);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
@@ -43,8 +45,21 @@ export default function Header() {
   const mobileMenuOpenRef = useRef(false);
   const searchOpenRef = useRef(false);
 
-  const pathname = usePathname();
   const { stopScroll, startScroll } = useLenis();
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setHeroVisible(true);
+      return;
+    }
+    setHeroVisible(document.documentElement.dataset.heroVisible === "true");
+    const onHeroVis = (e: Event) => {
+      const custom = e as CustomEvent<{ visible: boolean }>;
+      setHeroVisible(Boolean(custom.detail?.visible));
+    };
+    window.addEventListener("meddy:hero-visibility", onHeroVis);
+    return () => window.removeEventListener("meddy:hero-visibility", onHeroVis);
+  }, [pathname]);
 
   useEffect(() => {
     mobileMenuOpenRef.current = mobileMenuOpen;
@@ -297,10 +312,13 @@ export default function Header() {
 
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 80);
+      const heroEl = pathname === "/" ? document.getElementById("hero") : null;
+      const pastHero = heroEl ? heroEl.getBoundingClientRect().bottom <= 80 : y > 80;
+      setScrolled(pastHero);
 
+      const isMobile = window.innerWidth < 1024;
       if (!headerRef.current) return;
-      if (y <= 80 || mobileMenuOpenRef.current || searchOpenRef.current) {
+      if (!pastHero || isMobile || mobileMenuOpenRef.current || searchOpenRef.current) {
         if (headerHiddenRef.current) {
           headerHiddenRef.current = false;
           gsap.to(headerRef.current, { yPercent: 0, duration: 0.32, ease: EASE.out });
@@ -323,7 +341,7 @@ export default function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   // Global keyboard shortcuts (Ctrl+K / Cmd+K or / search, Escape, focus trap in mobile menu)
   useEffect(() => {
@@ -408,7 +426,11 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className={`fixed top-0 left-0 right-0 z-50 h-[64px] lg:h-[80px] transition-colors duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 h-[64px] lg:h-[80px] transition-all duration-300 ${
+          !heroVisible && pathname === "/"
+            ? "opacity-0 -translate-y-4 pointer-events-none"
+            : "opacity-100 translate-y-0"
+        } ${
           scrolled || mobileMenuOpen
             ? "bg-[#0B1E36] border-b border-white/[0.08]"
             : "bg-[#0B1E36]/85 border-b border-white/[0.06]"

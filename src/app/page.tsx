@@ -1,3 +1,4 @@
+import ScrollBrandIntro from "@/components/ScrollBrandIntro";
 import Hero from "@/components/Hero";
 import CapabilitiesStrip from "@/components/CapabilitiesStrip";
 import MissionSection from "@/components/MissionSection";
@@ -12,7 +13,9 @@ import ContactSection from "@/components/ContactSection";
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <ScrollBrandIntro>
+        <Hero />
+      </ScrollBrandIntro>
       <CapabilitiesStrip />
       <MissionSection />
       <AboutSection />

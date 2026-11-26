@@ -52,17 +52,25 @@ export default function FadeUp({
         const d = quick ? duration / 3 : duration;
         const del = quick ? delay / 3 : delay;
 
+        const rect = el.getBoundingClientRect();
+        if (trigger === "scroll" && rect.top < window.innerHeight * 0.96) {
+          el.style.visibility = "visible";
+          gsap.set(el, { opacity: 1, y: 0 });
+          return;
+        }
+
         tween = gsap.from(el, {
           opacity: 0,
           y,
           duration: d,
           delay: del,
           ease: EASE.out,
+          clearProps: "transform,opacity",
           ...(trigger === "scroll"
             ? {
                 scrollTrigger: {
                   trigger: el,
-                  start: "top 88%",
+                  start: "top 95%",
                   once: true,
                 },
               }

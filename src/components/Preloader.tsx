@@ -1,256 +1,142 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { EASE } from "@/lib/motion/tokens";
 import { revealGate } from "@/lib/motion/revealGate";
 import { useLenis } from "@/components/motion/MotionProvider";
-
-function decodeWithTimeout(src: string, timeoutMs = 2500): Promise<void> {
-  if (typeof window === "undefined") return Promise.resolve();
-  return new Promise((resolve) => {
-    const timer = setTimeout(resolve, timeoutMs);
-    const img = new window.Image();
-    img.src = src;
-    const done = () => {
-      clearTimeout(timer);
-      resolve();
-    };
-    if (typeof img.decode === "function") {
-      img.decode().then(done).catch(done);
-    } else {
-      img.onload = done;
-      img.onerror = done;
-    }
-  });
-}
+import { frameStore } from "@/lib/frameLoader";
 
 export default function Preloader() {
-  const [active, setActive] = useState(true);
+  const pathname = usePathname();
+  const [active, setActive] = useState(pathname === "/");
+  const [percent, setPercent] = useState(0);
   const { stopScroll, startScroll } = useLenis();
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const skipBtnRef = useRef<HTMLButtonElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const word1Ref = useRef<HTMLDivElement>(null);
-  const word2Ref = useRef<HTMLDivElement>(null);
-  const prevFocusRef = useRef<HTMLElement | null>(null);
   const finishedRef = useRef(false);
-  const liftingRef = useRef(false);
-  const masterTlRef = useRef<gsap.core.Timeline | null>(null);
 
-  const finish = useCallback(() => {
+  const unlockAndHide = useCallback(() => {
     if (finishedRef.current) return;
     finishedRef.current = true;
-    sessionStorage.setItem("meddy_intro_v2", "1");
-    revealGate.open(false);
+    document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
+    window.scrollTo(0, 0);
+    revealGate.open(false);
     startScroll();
     setActive(false);
-    requestAnimationFrame(() => {
-      prevFocusRef.current?.focus?.();
-    });
   }, [startScroll]);
-
-  const skipIntro = useCallback(() => {
-    if (finishedRef.current || liftingRef.current) return;
-    liftingRef.current = true;
-    sessionStorage.setItem("meddy_intro_v2", "1");
-    revealGate.open(false);
-    masterTlRef.current?.kill();
-
-    if (!containerRef.current) {
-      finish();
-      return;
-    }
-
-    gsap.to(containerRef.current, {
-      yPercent: -100,
-      duration: 0.3,
-      ease: EASE.out,
-      onComplete: finish,
-    });
-  }, [finish]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const hasSeen = sessionStorage.getItem("meddy_intro_v2");
-    const skipQuery = window.location.search.includes("skip_intro");
-    const replayQuery =
-      window.location.search.includes("replay") ||
-      window.location.search.includes("intro");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if ((hasSeen && !replayQuery) || skipQuery || reduce) {
-      if (reduce) sessionStorage.setItem("meddy_intro_v2", "1");
-      revealGate.open(true);
-      setActive(false);
+    if (pathname !== "/") {
+      unlockAndHide();
       return;
     }
 
-    prevFocusRef.current = document.activeElement as HTMLElement | null;
-    revealGate.close();
-    stopScroll();
-    document.body.style.overflow = "hidden";
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const skipQuery = window.location.search.includes("skip_intro");
 
-    requestAnimationFrame(() => {
-      skipBtnRef.current?.focus();
-    });
-
-    const isMobile = window.innerWidth < 768;
-    const heroSrc = isMobile
-      ? "/images/hero-mobile-1170.webp"
-      : "/images/hero-desktop-1920.webp";
-
-    const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.out } });
-    masterTlRef.current = tl;
-
-    tl.addLabel("fill", 0.15)
-      .fromTo(
-        logoRef.current,
-        { clipPath: "inset(100% 0% 0% 0%)", opacity: 0.2 },
-        { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, duration: 0.8 },
-        "fill"
-      )
-      .addLabel("words", 0.95)
-      .from(
-        [word1Ref.current, word2Ref.current],
-        { yPercent: 110, duration: 0.8, stagger: 0.06 },
-        "words"
-      )
-      .addLabel("hold", 1.25);
-
-    const ready = Promise.all([
-      document.fonts ? document.fonts.ready : Promise.resolve(),
-      decodeWithTimeout("/meddy-mark.png", 2500),
-      decodeWithTimeout(heroSrc, 2500),
-      new Promise<void>((r) => setTimeout(r, 1200)),
-    ]);
-
-    tl.play();
-
-    // Cap whole intro at 4 seconds max
-    const capTimer = setTimeout(() => {
-      if (!liftingRef.current && !finishedRef.current) {
-        liftPanel();
-      }
-    }, 4000);
-
-    function liftPanel() {
-      if (liftingRef.current || finishedRef.current) return;
-      liftingRef.current = true;
-      clearTimeout(capTimer);
-
-      if (!containerRef.current) {
-        finish();
-        return;
-      }
-
-      const out = gsap.timeline({ onComplete: finish });
-      out
-        .to([badgeRef.current, word1Ref.current, word2Ref.current], {
-          opacity: 0,
-          duration: 0.12,
-        })
-        .to(
-          containerRef.current,
-          {
-            yPercent: -100,
-            duration: 0.7,
-            ease: EASE.inOut,
-            onStart: () => {
-              sessionStorage.setItem("meddy_intro_v2", "1");
-              revealGate.open(false);
-            },
-          },
-          ">0.05"
-        );
+    if (reduce || skipQuery) {
+      revealGate.open(true);
+      unlockAndHide();
+      return;
     }
 
-    let cancelled = false;
-    Promise.all([ready, tl.then()]).then(() => {
-      if (!cancelled) liftPanel();
-    });
+    finishedRef.current = false;
+    setActive(true);
+    revealGate.close();
+    stopScroll();
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
-        e.preventDefault();
-        skipIntro();
+    const isMobile = window.innerWidth < 768;
+    let cancelled = false;
+
+    const fadeOut = () => {
+      if (cancelled || finishedRef.current) return;
+      // Ensure scroll starts at top before revealing the scroll-driven intro
+      window.scrollTo(0, 0);
+      if (!containerRef.current) {
+        unlockAndHide();
+        return;
       }
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        duration: 0.45,
+        ease: EASE.out,
+        onComplete: unlockAndHide,
+      });
     };
-    window.addEventListener("keydown", handleKeyDown);
+
+    const failsafe = window.setTimeout(() => {
+      setPercent(100);
+      fadeOut();
+    }, 6000);
+
+    frameStore
+      .start(isMobile, (pct) => {
+        if (!cancelled) setPercent(pct);
+      })
+      .then(() => {
+        if (cancelled) return;
+        window.clearTimeout(failsafe);
+        setPercent(100);
+        // Brief beat at 100% so user sees completion before fade
+        window.setTimeout(fadeOut, 140);
+      });
 
     return () => {
       cancelled = true;
-      clearTimeout(capTimer);
-      window.removeEventListener("keydown", handleKeyDown);
-      tl.kill();
+      window.clearTimeout(failsafe);
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
       startScroll();
     };
-  }, [stopScroll, startScroll, finish, skipIntro]);
+  }, [pathname, stopScroll, startScroll, unlockAndHide]);
 
   if (!active) return null;
 
   return (
     <div
       ref={containerRef}
-      onClick={skipIntro}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Welcome to Meddy Oil & Gas"
-      className="fixed inset-0 z-[100] bg-[#0B1E36] flex flex-col items-center justify-center cursor-pointer select-none"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading Meddy Oil & Gas experience"
+      className="fixed inset-0 z-[100] bg-[#0B1E36] flex flex-col items-center justify-center select-none"
     >
-      <div className="flex flex-col items-center gap-6">
-        {/* Animated Droplet Logo in crisp white rounded card (96px desktop, 80px mobile) */}
-        <div
-          ref={badgeRef}
-          className="w-20 h-20 sm:w-24 sm:h-24 rounded-[4px] bg-white p-2.5 flex items-center justify-center shadow-2xl relative overflow-hidden"
-        >
-          <div ref={logoRef} className="w-full h-full relative">
-            <img
-              src="/meddy-mark.png"
-              alt="Meddy Oil & Gas Mark"
-              className="w-full h-full object-contain"
+      <div className="flex flex-col items-center gap-5">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#F0EDDE] p-3 flex items-center justify-center shadow-2xl animate-pulse">
+          <img
+            src="/meddy-mark.png"
+            alt="Meddy Oil & Gas Mark"
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        <div className="text-center">
+          <div className="font-display text-3xl sm:text-4xl font-bold uppercase tracking-tight text-white leading-none">
+            MEDDY
+          </div>
+          <div className="font-body text-[10px] font-bold tracking-[0.22em] text-[#F69E28] uppercase mt-1">
+            OIL &amp; GAS
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-2 mt-1 w-40">
+          <div className="w-full h-[2px] bg-white/15 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#F69E28] transition-all duration-150 ease-out"
+              style={{ width: `${percent}%` }}
             />
           </div>
-        </div>
-
-        {/* Wordmark with Masked Rise */}
-        <div className="text-center overflow-hidden">
-          <div className="overflow-hidden">
-            <div
-              ref={word1Ref}
-              className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white leading-none"
-            >
-              MEDDY
-            </div>
-          </div>
-          <div className="overflow-hidden mt-1">
-            <div
-              ref={word2Ref}
-              className="font-body text-xs font-bold tracking-[0.22em] text-[#F69E28] uppercase leading-tight"
-            >
-              OIL &amp; GAS LIMITED
-            </div>
-          </div>
+          <span className="font-mono text-xs tracking-widest text-white/75 tabular-nums">
+            {percent}%
+          </span>
         </div>
       </div>
-
-      <button
-        ref={skipBtnRef}
-        type="button"
-        role="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          skipIntro();
-        }}
-        className="absolute bottom-8 px-4 py-2 text-[11px] font-mono tracking-widest uppercase text-white/60 hover:text-white focus:outline-none focus:ring-2 focus:ring-[#F69E28] rounded-[2px] cursor-pointer"
-      >
-        CLICK OR PRESS ESC TO SKIP
-      </button>
     </div>
   );
 }
