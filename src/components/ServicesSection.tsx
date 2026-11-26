@@ -83,7 +83,7 @@ export default function ServicesSection() {
           </div>
           <FadeUp delay={0.2} y={16}>
             <p className="font-body text-base text-white/70 max-w-md leading-relaxed">
-              Pick a service to review operational scope, rig-site applications, and deployment procedures.
+              Pick a service to review operational details, rig-site applications, and deployment procedures.
             </p>
           </FadeUp>
         </div>

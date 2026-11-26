@@ -121,7 +121,7 @@ export default function ServicesHubPage() {
                   showArrow={false}
                   className="!h-10 !px-6 !text-xs"
                 >
-                  Request Scope Discussion
+                  Request a Service
                 </Button>
               </div>
             </div>

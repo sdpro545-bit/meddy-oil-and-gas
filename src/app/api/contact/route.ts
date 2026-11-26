@@ -73,7 +73,7 @@ export async function POST(req: Request) {
     const msgTrimmed = typeof message === "string" ? message.trim() : "";
     if (!msgTrimmed) {
       return NextResponse.json(
-        { success: false, error: "Project scope message is required." },
+        { success: false, error: "Project details message is required." },
         { status: 400 }
       );
     }
@@ -119,7 +119,7 @@ export async function POST(req: Request) {
       <p><strong>Organisation:</strong> ${safeCompany}</p>
       <p><strong>Email:</strong> ${safeEmail}</p>
       <p><strong>Phone:</strong> ${safePhone}</p>
-      <p><strong>Service Scope:</strong> ${safeService}</p>
+      <p><strong>Service Requested:</strong> ${safeService}</p>
       <p><strong>Message:</strong></p>
       <p>${safeMessage}</p>
     `;

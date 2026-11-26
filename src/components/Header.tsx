@@ -599,7 +599,7 @@ export default function Header() {
               href="/contact"
               className="inline-flex items-center justify-center h-[38px] px-5 bg-[#F69E28] hover:bg-[#E08518] active:scale-[0.98] text-[#0B1E36] font-body text-[13px] font-bold rounded-[2px] transition-all"
             >
-              Get In Touch
+              Contact Us
             </AppLink>
           </div>
 
@@ -780,7 +780,7 @@ export default function Header() {
             onClick={() => closeMobileMenu(false)}
             className="w-full h-14 bg-[#F69E28] hover:bg-[#E08518] text-[#0B1E36] font-bold text-sm flex items-center justify-center rounded-[2px] transition-all"
           >
-            Get In Touch
+            Contact Us
           </AppLink>
           <div className="text-xs text-white/60 text-center font-body">
             {COMPANY_FACTS.address}

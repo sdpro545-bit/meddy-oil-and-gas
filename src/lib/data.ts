@@ -249,7 +249,7 @@ export const HOW_WE_WORK_STEPS = [
   {
     step: "01",
     title: "Plan",
-    description: "We agree the scope, the risks, and the schedule before anyone mobilises.",
+    description: "We agree the plan, the risks, and the schedule before anyone mobilises.",
   },
   {
     step: "02",

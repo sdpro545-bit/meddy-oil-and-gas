@@ -135,7 +135,7 @@ export default function ProjectsPage() {
 
         <div className="mt-10 text-center">
           <Button href="/contact" variant="primary" showArrow={true}>
-            Discuss a Scope
+            Contact Us
           </Button>
         </div>
       </div>

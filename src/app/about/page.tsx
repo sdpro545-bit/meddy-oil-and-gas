@@ -143,7 +143,7 @@ export default function AboutPage() {
               Ready to Discuss Operational Requirements?
             </h3>
             <p className="font-body text-sm text-white/70 max-w-xl leading-relaxed">
-              Contact our engineering management team to review scopes, well specifications, and mobilisation timetables.
+              Contact our engineering management team to review project requirements, well specifications, and mobilisation timetables.
             </p>
           </div>
           <Button href="/contact" variant="primary">

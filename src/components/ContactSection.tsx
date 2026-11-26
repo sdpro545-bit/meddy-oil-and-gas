@@ -138,7 +138,7 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
                 Tell us what you need
               </RevealLines>
               <p className="font-body text-base text-white/75 leading-relaxed pt-2">
-                Send your operational scope, location, and project schedule. Our coordination team in Lagos reviews incoming inquiries and responds directly.
+                Send your project details, location, and schedule. Our coordination team in Lagos reviews incoming inquiries and responds directly.
               </p>
             </div>
 
@@ -287,7 +287,7 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
                       htmlFor="contact-service"
                       className="block text-xs font-semibold uppercase tracking-wider text-white/75"
                     >
-                      Service Scope
+                      Service Required
                     </label>
                     <select
                       id="contact-service"
@@ -302,7 +302,7 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
                         </option>
                       ))}
                       <option value="General Technical Inquiry" className="bg-[#0B1E36] text-white">
-                        General Technical Inquiry
+                        Other Service
                       </option>
                     </select>
                   </div>
@@ -314,7 +314,7 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
                     htmlFor="contact-message"
                     className="block text-xs font-semibold uppercase tracking-wider text-white/75"
                   >
-                    Scope of Requirement *
+                    Project Details *
                   </label>
                   <textarea
                     id="contact-message"
@@ -339,7 +339,7 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
                     className="mt-1 w-4 h-4 rounded-[2px] border-white/20 bg-white/[0.05] text-[#F69E28] focus:ring-[#F69E28]"
                   />
                   <label htmlFor="consent" className="text-xs text-white/70 leading-normal">
-                    I agree to the processing of submitted technical and business information for quotation and contract evaluation by Meddy Oil &amp; Gas Limited.
+                    I agree to the processing of submitted technical and business information for service and contract evaluation by Meddy Oil &amp; Gas Limited.
                   </label>
                 </div>
 
@@ -359,13 +359,13 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
                   >
                     <span className="relative inline-block overflow-hidden h-[1.2em] leading-tight">
                       <span className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">
-                        {status === "submitting" ? "Transmitting Scope..." : "Send Message"}
+                        {status === "submitting" ? "Sending Message..." : "Send Message"}
                       </span>
                       <span
                         aria-hidden="true"
                         className="absolute top-0 left-0 inline-block transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] translate-y-full group-hover:translate-y-0 text-current"
                       >
-                        {status === "submitting" ? "Transmitting Scope..." : "Send Message"}
+                        {status === "submitting" ? "Sending Message..." : "Send Message"}
                       </span>
                     </span>
                     <Send className="w-4 h-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />

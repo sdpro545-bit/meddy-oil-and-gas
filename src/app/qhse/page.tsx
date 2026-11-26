@@ -37,7 +37,7 @@ export default function QHSEPage() {
       points: [
         "Pre-mobilisation dimensional and pressure-test verification records",
         "Traceable job execution logs and daily shift handover notes",
-        "Structured post-job technical reviews to carry lessons into the next scope",
+        "Structured post-job technical reviews to carry lessons into the next operation",
       ],
     },
     {

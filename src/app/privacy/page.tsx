@@ -38,7 +38,7 @@ export default function PrivacyPage() {
             Collection of Operational Information
           </h2>
           <p>
-            We collect information submitted through our official contact forms, speculative career applications, and technical quotation requests. This data includes full names, corporate affiliations, professional email addresses, phone contacts, and well programme parameters.
+            We collect information submitted through our official contact forms, speculative career applications, and service requests. This data includes full names, corporate affiliations, professional email addresses, phone contacts, and well programme parameters.
           </p>
 
           <h2 className="font-display text-2xl font-bold uppercase text-[#0B1E36] pt-4">
